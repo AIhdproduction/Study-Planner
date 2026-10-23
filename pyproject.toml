@@ -1,0 +1,48 @@
+[project]
+name = "studyplan"
+version = "0.1.0"
+description = "Local study planner"
+requires-python = ">=3.12"
+dependencies = [
+  "typer>=0.15",
+  "rich>=13",
+  "ruamel.yaml>=0.18",
+  "pydantic>=2",
+  "ortools>=9.11",
+  "openpyxl>=3.1",
+  "pypdf>=5",
+  "selectolax>=0.3",
+  "icalendar>=6",
+]
+
+[project.scripts]
+studyplan = "studyplan.cli:app"
+
+[dependency-groups]
+dev = [
+    "jsonschema>=4",
+    "pytest>=8",
+    "ruff>=0.8",
+]
+
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/studyplan"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["pytest-cache-files-*"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+markers = [
+  "real: requires private real fixtures",
+  "agent: helper-agent test",
+]
+testpaths = ["tests"]

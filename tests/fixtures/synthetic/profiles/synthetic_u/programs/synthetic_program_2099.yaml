@@ -1,0 +1,44 @@
+id: synthetic_program_2099
+name: Synthetic Planning
+specialization: Testing
+degree: bachelor
+total_ects: 30
+intake_year: 2099
+regulation_version_id: synthetic_2099
+study_modes:
+  part_time: {standard_semesters: 6, maximum_semesters: 12}
+categories:
+  - {id: core, official_name: Core, curriculum_letter: K, verification_status: verified}
+  - {id: project, official_name: Project, curriculum_letter: P, verification_status: verified}
+  - {id: related, official_name: Related, curriculum_letter: E, verification_status: verified}
+  - {id: minor, official_name: Minor, curriculum_letter: Z, verification_status: verified}
+modules:
+  - {code: SYN.CORE1, title: Synthetic Core 1, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: verified}
+  - {code: SYN.CORE2, title: Synthetic Core 2, ects: 3, eligible_category_ids: [core, project], level: basic, mandatory: true, verification_status: verified}
+  - {code: SYN.PROJECT1, title: Synthetic Project, ects: 3, eligible_category_ids: [project], level: intermediate, mandatory: true, verification_status: verified}
+  - {code: SYN.RELATED1, title: Synthetic Related, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: verified}
+  - {code: SYN.MINOR1, title: Synthetic Minor, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: verified}
+  - {code: SYN.ADVANCED, title: Synthetic Advanced, ects: 3, eligible_category_ids: [core], level: advanced, mandatory: false, verification_status: verified}
+  - {code: SYN.ALT_A, title: Synthetic Alternative A, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: verified}
+  - {code: SYN.ALT_B, title: Synthetic Alternative B, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: verified}
+  - {code: SYN.RENAMED, title: Synthetic Renamed, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, predecessor_codes: [SYN.OLD], verification_status: verified}
+rules:
+  - {id: total, type: min_ects_total, parameters: {type: min_ects_total, minimum_ects: 12}, description: Total ECTS., verification_status: verified}
+  - {id: core_min, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: core, ects: 3}, description: Core ECTS., verification_status: verified}
+  - {id: project_min, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: project, ects: 3}, description: Project ECTS., verification_status: verified}
+  - {id: core_cap, type: max_ects_in_category, parameters: {type: max_ects_in_category, category_id: core, ects: 6}, description: Core cap., verification_status: verified}
+  - {id: required, type: required_module, parameters: {type: required_module, module_code: SYN.CORE1}, description: Required module., verification_status: verified}
+  - {id: mandatory, type: required_all_mandatory, parameters: {type: required_all_mandatory, category_ids: [core, project]}, description: Mandatory modules., verification_status: verified}
+  - {id: alternative, type: required_one_of, parameters: {type: required_one_of, module_codes: [SYN.ALT_A, SYN.ALT_B]}, description: Alternative module., verification_status: verified}
+  - {id: module_count, type: min_modules_in_category, parameters: {type: min_modules_in_category, category_id: minor, minimum_modules: 1}, description: Minor module count., verification_status: verified}
+  - {id: prerequisite, type: prerequisite, parameters: {type: prerequisite, module_code: SYN.ADVANCED, prerequisite_module_codes: [SYN.CORE1]}, description: Prerequisite., verification_status: verified}
+  - {id: attempts, type: max_attempts, parameters: {type: max_attempts, maximum_attempts: 3}, description: Attempt limit., verification_status: verified}
+  - {id: retake, type: retake_budget, parameters: {type: retake_budget, ects_budget: 3, excluded_module_codes: [SYN.ADVANCED]}, description: Retake budget., verification_status: verified}
+  - {id: gate, type: level_gate, parameters: {type: level_gate, gated_level: advanced, required_level: basic, mandatory_only: true}, description: Level gate., verification_status: verified}
+  - {id: deadline, type: level_deadline, parameters: {type: level_deadline, level: basic, completed_semesters: 3, mandatory_only: true}, description: Level deadline., verification_status: verified}
+  - {id: at_institution, type: min_ects_at_institution, parameters: {type: min_ects_at_institution, minimum_ects: 9}, description: Institution ECTS., verification_status: verified}
+  - {id: recognition_cap, type: max_recognized_ects, parameters: {type: max_recognized_ects, basis: synthetic basis, maximum_ects: 6}, description: Recognition cap., verification_status: verified}
+  - {id: duration, type: max_study_duration, parameters: {type: max_study_duration, maximum_semesters: 8, maximum_interruptions: 2}, description: Duration., verification_status: verified}
+  - {id: manual_note, type: custom_note, parameters: {type: custom_note, note: Confirm the synthetic requirement.}, description: Manual requirement., verification_status: verified}
+  - {id: thesis_admission, type: composite, parameters: {type: composite, operator: and, rule_ids: [total, manual_note]}, description: Thesis goal., verification_status: verified}
+  - {id: graduation, type: composite, parameters: {type: composite, operator: and, rule_ids: [total, core_min, project_min, mandatory]}, description: Graduation goal., verification_status: verified}

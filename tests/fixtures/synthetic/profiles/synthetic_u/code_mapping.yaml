@@ -1,0 +1,5 @@
+mappings:
+  - {source: mycampus, foreign_code: SYN.CORE1_K, source_document: {document: synthetic-mycampus.html}, curriculum_code: SYN.CORE1, evidence: Synthetic mapping., verification_status: unverified}
+  - {source: mycampus, foreign_code: SYN.OUTSIDE, source_document: {document: synthetic-mycampus.html}, curriculum_code: null, evidence: Synthetic non-curriculum code., verification_status: verified}
+  - {source: timetable, foreign_code: SYN.CORE2, source_document: {document: synthetic-timetable.csv}, curriculum_code: SYN.CORE2, evidence: Synthetic mapping., verification_status: verified}
+  - {source: module_directory, foreign_code: SYN.LEGACY, source_document: {document: synthetic-directory.html}, curriculum_code: SYN.RENAMED, evidence: Synthetic mapping., verification_status: verified}

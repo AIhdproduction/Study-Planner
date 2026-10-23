@@ -1,0 +1,353 @@
+{
+  "$defs": {
+    "AllocationResult": {
+      "additionalProperties": false,
+      "properties": {
+        "module_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module Code"
+        },
+        "recognized_credit_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Recognized Credit Id"
+        },
+        "allocated_category_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Allocated Category Id"
+        },
+        "ects_counted": {
+          "title": "Ects Counted",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ects_counted",
+        "reason"
+      ],
+      "title": "AllocationResult",
+      "type": "object"
+    },
+    "Gap": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Value"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "text"
+      ],
+      "title": "Gap",
+      "type": "object"
+    },
+    "GoalResult": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "verdict": {
+          "enum": [
+            "eligible",
+            "not_eligible",
+            "provisional"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        },
+        "rule_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rule Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "verdict",
+        "rule_ids"
+      ],
+      "title": "GoalResult",
+      "type": "object"
+    },
+    "ManualChecklistResult": {
+      "additionalProperties": false,
+      "properties": {
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "checked": {
+          "title": "Checked",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "rule_id",
+        "checked"
+      ],
+      "title": "ManualChecklistResult",
+      "type": "object"
+    },
+    "OpenIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "warning",
+            "info"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "severity",
+        "text"
+      ],
+      "title": "OpenIssue",
+      "type": "object"
+    },
+    "RuleResult": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "title": "Type",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "fulfilled",
+            "not_fulfilled",
+            "provisional",
+            "manual"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "current_value": {
+          "default": null,
+          "title": "Current Value"
+        },
+        "target_value": {
+          "default": null,
+          "title": "Target Value"
+        },
+        "gap": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Gap"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "source": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source"
+        },
+        "verification_status": {
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "provisional_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Provisional Reasons",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "status",
+        "verification_status"
+      ],
+      "title": "RuleResult",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "mode": {
+      "enum": [
+        "current",
+        "forecast"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "disclaimer": {
+      "default": "Not legally binding. The official study regulations and the program management decide.",
+      "title": "Disclaimer",
+      "type": "string"
+    },
+    "verdict": {
+      "enum": [
+        "eligible",
+        "not_eligible",
+        "provisional"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    },
+    "goals": {
+      "items": {
+        "$ref": "#/$defs/GoalResult"
+      },
+      "title": "Goals",
+      "type": "array"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/RuleResult"
+      },
+      "title": "Rules",
+      "type": "array"
+    },
+    "allocation": {
+      "items": {
+        "$ref": "#/$defs/AllocationResult"
+      },
+      "title": "Allocation",
+      "type": "array"
+    },
+    "gaps": {
+      "items": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Gaps",
+      "type": "array"
+    },
+    "manual_checklist": {
+      "items": {
+        "$ref": "#/$defs/ManualChecklistResult"
+      },
+      "title": "Manual Checklist",
+      "type": "array"
+    },
+    "open_issues": {
+      "items": {
+        "$ref": "#/$defs/OpenIssue"
+      },
+      "title": "Open Issues",
+      "type": "array"
+    },
+    "category_ects": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Category Ects",
+      "type": "object"
+    },
+    "total_ects": {
+      "title": "Total Ects",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "mode",
+    "verdict",
+    "goals",
+    "rules",
+    "allocation",
+    "gaps",
+    "manual_checklist",
+    "open_issues",
+    "category_ects",
+    "total_ects"
+  ],
+  "title": "CheckResult",
+  "type": "object"
+}

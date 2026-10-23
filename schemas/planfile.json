@@ -1,0 +1,138 @@
+{
+  "$defs": {
+    "PlanItem": {
+      "additionalProperties": false,
+      "properties": {
+        "module_code": {
+          "title": "Module Code",
+          "type": "string"
+        },
+        "target_semester": {
+          "title": "Target Semester",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "running"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "mapping_verification_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "unverified",
+                "verified",
+                "edited"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mapping Verification Status"
+        }
+      },
+      "required": [
+        "module_code",
+        "target_semester",
+        "status"
+      ],
+      "title": "PlanItem",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "title": "Document",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved On"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "planned_modules": {
+      "items": {
+        "$ref": "#/$defs/PlanItem"
+      },
+      "title": "Planned Modules",
+      "type": "array"
+    }
+  },
+  "title": "PlanFile",
+  "type": "object"
+}

@@ -1,0 +1,311 @@
+{
+  "$defs": {
+    "CreditAttempt": {
+      "additionalProperties": false,
+      "properties": {
+        "module_code": {
+          "title": "Module Code",
+          "type": "string"
+        },
+        "semester": {
+          "title": "Semester",
+          "type": "string"
+        },
+        "ects": {
+          "exclusiveMinimum": 0,
+          "title": "Ects",
+          "type": "integer"
+        },
+        "grade": {
+          "anyOf": [
+            {
+              "enum": [
+                "A",
+                "B",
+                "C",
+                "D",
+                "E",
+                "F"
+              ],
+              "type": "string"
+            },
+            {
+              "enum": [
+                "pass",
+                "fail"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Grade"
+        },
+        "passed": {
+          "title": "Passed",
+          "type": "boolean"
+        },
+        "attempt": {
+          "exclusiveMinimum": 0,
+          "title": "Attempt",
+          "type": "integer"
+        },
+        "forced_category_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forced Category Id"
+        },
+        "forced_category_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Forced Category Reason"
+        },
+        "recognized_external": {
+          "default": false,
+          "title": "Recognized External",
+          "type": "boolean"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceReference"
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "mapping_verification_status": {
+          "anyOf": [
+            {
+              "enum": [
+                "unverified",
+                "verified",
+                "edited"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mapping Verification Status"
+        }
+      },
+      "required": [
+        "module_code",
+        "semester",
+        "ects",
+        "passed",
+        "attempt",
+        "source",
+        "verification_status"
+      ],
+      "title": "CreditAttempt",
+      "type": "object"
+    },
+    "RecognizedCredit": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "module_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module Code"
+        },
+        "category_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Category Id"
+        },
+        "ects": {
+          "exclusiveMinimum": 0,
+          "title": "Ects",
+          "type": "integer"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "decision_document": {
+          "$ref": "#/$defs/SourceReference"
+        },
+        "decision_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Decision Date"
+        },
+        "status": {
+          "enum": [
+            "confirmed",
+            "provisional"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "open_issue": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Open Issue"
+        }
+      },
+      "required": [
+        "id",
+        "ects",
+        "basis",
+        "decision_document",
+        "status"
+      ],
+      "title": "RecognizedCredit",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "title": "Document",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved On"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "credits": {
+      "items": {
+        "$ref": "#/$defs/CreditAttempt"
+      },
+      "title": "Credits",
+      "type": "array"
+    },
+    "recognized_credits": {
+      "items": {
+        "$ref": "#/$defs/RecognizedCredit"
+      },
+      "title": "Recognized Credits",
+      "type": "array"
+    }
+  },
+  "title": "CreditsFile",
+  "type": "object"
+}

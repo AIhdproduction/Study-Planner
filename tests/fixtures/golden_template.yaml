@@ -1,0 +1,84 @@
+# Golden test file
+# Copy to tests/fixtures/real/golden.yaml and fill in with your real data.
+# This file is gitignored there. It defines the result the rule engine MUST produce.
+# Use only values you checked yourself against the official documents.
+# Never copy values from your own planning workbook. It is the input the tool corrects.
+# Sources for this file: study regulation, curriculum, official transcript, recognition decision.
+
+profile:
+  university: hslu_ta
+  program_id: digital_construction_architecture_2025   # file name in profiles/hslu_ta/programs/
+  program: "Digital Construction"
+  specialization: "Architecture"
+  intake_year: null          # year you started, for example 2025
+  study_mode: null           # full_time | part_time | extra_occupational
+  start_semester: null       # HS = autumn, FS = spring, for example HS25
+
+regulation:
+  document: "Studienreglement Bachelor TA.pdf"   # file name in tests/fixtures/real/
+  version: "vom 1. September 2025"
+  thesis_admission_page: 10                      # Art. 33, PDF page 10 (printed "Seite 10/11")
+  thesis_min_ects: 132                           # Art. 33
+  thesis_program_requirements: null              # from module description TA.BA_BAA_DC, fill in yourself
+  total_ects: 180                                # Art. 32
+  min_ects_at_institution: 60                    # Art. 32 d
+  max_semesters: 12                              # Art. 28 Abs. 5
+
+# Official category names from Art. 17 (PDF page 5). Curriculum letter mapping is unverified.
+categories:
+  - name: "Core"
+    curriculum_letter: K
+    min_ects: 90
+    max_ects: null
+    source_page: 5
+  - name: "Core-Project"
+    curriculum_letter: P
+    min_ects: 39
+    max_ects: null
+    source_page: 5
+  - name: "Related"
+    curriculum_letter: E
+    min_ects: 15
+    max_ects: null
+    source_page: 5
+  - name: "Minor"
+    curriculum_letter: Z
+    min_ects: 15
+    max_ects: null
+    source_page: 5
+
+# Recognized credits (Art. 2). Fill in from the official recognition decision only.
+recognized:
+  - basis: ""          # for example HF diploma, Art. 2 Abs. 2
+    category: ""       # leave empty and add an open issue if the decision is ambiguous
+    module_code: ""    # empty for lump sums without a module code
+    ects: 0
+    decision_document: ""
+
+# Your passed and failed modules
+credits:
+  - code: ""
+    title: ""
+    semester: ""       # for example HS25
+    ects: 0
+    grade: ""          # A to F or pass/fail
+    passed: true
+    attempt: 1
+    category: ""       # leave empty if the engine should decide
+
+# Modules you plan to take (for forecast mode)
+planned:
+  - code: ""
+    semester: ""       # for example FS27
+
+# What the engine must output
+expected:
+  current:
+    verdict: not_eligible        # eligible | not_eligible | provisional
+    total_ects: 0
+    missing:                     # each gap you know of
+      - "category <name>: <n> ECTS missing"
+      - "required module <code> not passed"
+  forecast:
+    verdict: eligible
+    earliest_admission_semester: ""   # for example FS27

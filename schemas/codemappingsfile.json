@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "CodeMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "enum": [
+            "mycampus",
+            "timetable",
+            "module_directory"
+          ],
+          "title": "Source",
+          "type": "string"
+        },
+        "foreign_code": {
+          "title": "Foreign Code",
+          "type": "string"
+        },
+        "source_document": {
+          "$ref": "#/$defs/SourceReference"
+        },
+        "curriculum_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Curriculum Code"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "valid_from": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Valid From"
+        },
+        "valid_until": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Valid Until"
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source",
+        "foreign_code",
+        "source_document",
+        "evidence",
+        "verification_status"
+      ],
+      "title": "CodeMapping",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "title": "Document",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved On"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "mappings": {
+      "items": {
+        "$ref": "#/$defs/CodeMapping"
+      },
+      "title": "Mappings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "mappings"
+  ],
+  "title": "CodeMappingsFile",
+  "type": "object"
+}

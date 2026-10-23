@@ -1,0 +1,229 @@
+# HSLU T&A code mapping.
+# Maps foreign course codes from timetable, module directory, and MyCampus to curriculum codes.
+#
+# Matching rules:
+# 1. Strip documented source-specific prefixes/suffixes to get the code stem:
+#    - mycampus: trailing run suffix .<H|F><yy><run> (e.g. .H2601)
+#    - module_directory: trailing version suffix .<nn> (e.g. .21)
+#    - timetable: leading department and type prefix (e.g. DCA-K-, DCS-P-)
+# 2. If the stem is identical to a curriculum code, it matches directly without an entry here.
+# 3. Otherwise, an explicit entry below maps the stem.
+#    Entries with curriculum_code: null indicate modules listed in the source but not part of this curriculum.
+
+mappings:
+  - source: timetable
+    foreign_code: TA.BA_DATA1
+    curriculum_code: TA.BA_DATA1_MM
+    source_document: {document: "DCA Musterstundenplan Arch Teilzeit.pdf", page: 1}
+    evidence: "Same module title in timetable and curriculum."
+    verification_status: unverified
+
+  - source: timetable
+    foreign_code: TA.BA_DATA2
+    curriculum_code: TA.BA_DATA2_MM
+    source_document: {document: "DCA Musterstundenplan Arch Teilzeit.pdf", page: 1}
+    evidence: "Same module title in timetable and curriculum."
+    verification_status: unverified
+
+  - source: timetable
+    foreign_code: TA.BA_DATA3
+    curriculum_code: TA.BA_DATA3_MM
+    source_document: {document: "DCA Musterstundenplan Arch Teilzeit.pdf", page: 1}
+    evidence: "Same module title in timetable and curriculum."
+    verification_status: unverified
+
+  - source: timetable
+    foreign_code: TA.BA_PYTHON
+    curriculum_code: TA.BA_PYTHON_MM
+    source_document: {document: "DCA Musterstundenplan Arch Teilzeit.pdf", page: 1}
+    evidence: "Same module title in timetable and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_BIZCON_ISA
+    curriculum_code: TA.BA_BIZCON
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_DC_METH_MM
+    curriculum_code: TA.BA_DC_METH
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_DT_CONST_MM
+    curriculum_code: TA.BA_DT_CONST
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_DT_DESIGN_MM
+    curriculum_code: TA.BA_DT_DESIGN
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_DT_PARAM_MM
+    curriculum_code: TA.BA_DT_PARAM
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_DT_PROGR_MM
+    curriculum_code: TA.BA_DT_PROGR
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_KOENW_MM
+    curriculum_code: TA.BA_KOENW
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_PRAX_DCA_3F26
+    curriculum_code: TA.BA_PRAX_DCA_3
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_PRAX_DCA_6F26
+    curriculum_code: TA.BA_PRAX_DCA_6
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_PYTHON_AD_MM
+    curriculum_code: TA.BA_PYTHON_AD
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_SP1_SZ
+    curriculum_code: TA.BA_SP1
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_SP2_SZ
+    curriculum_code: TA.BA_SP2
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_WST+BAS_MM
+    curriculum_code: TA.BA_WST+BAS
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Same module title in module directory and curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_IDENT
+    curriculum_code: null
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Listed in the module directory, not part of this curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_NANOTECH
+    curriculum_code: null
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Listed in the module directory, not part of this curriculum."
+    verification_status: unverified
+
+  - source: module_directory
+    foreign_code: TA.BA_POLITIK
+    curriculum_code: null
+    source_document: {document: "modulverzeichnis.hslu.ch", page: null}
+    evidence: "Listed in the module directory, not part of this curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DATA1_K
+    curriculum_code: TA.BA_DATA1_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DC_GRND1_K
+    curriculum_code: TA.BA_DC_GRND1_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DC_GRND2_K
+    curriculum_code: TA.BA_DC_GRND2_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DC_METH_K
+    curriculum_code: TA.BA_DC_METH
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DC_TECH_K
+    curriculum_code: TA.BA_DC_TECH_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DT_GRND_K
+    curriculum_code: TA.BA_DT_GRND_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DT_PARAM_K
+    curriculum_code: TA.BA_DT_PARAM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_DT_PROGR_K
+    curriculum_code: TA.BA_DT_PROGR
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_KOENW_K
+    curriculum_code: TA.BA_KOENW
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_PYTHON_K
+    curriculum_code: TA.BA_PYTHON_MM
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified
+
+  - source: mycampus
+    foreign_code: TA.BA_WST+BAS_K
+    curriculum_code: TA.BA_WST+BAS
+    source_document: {document: "MyCampus Meine Anmeldungen", page: null}
+    evidence: "Same module title in MyCampus and curriculum."
+    verification_status: unverified

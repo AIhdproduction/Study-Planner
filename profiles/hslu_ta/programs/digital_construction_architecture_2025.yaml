@@ -1,0 +1,137 @@
+id: digital_construction_architecture_2025
+name: Digital Construction
+specialization: Architecture
+degree: bachelor
+total_ects: 180
+intake_year: 2025
+regulation_version_id: bachelor_2025
+study_modes:
+  full_time: {standard_semesters: null, maximum_semesters: 12}
+  part_time: {standard_semesters: null, maximum_semesters: 12}
+  extra_occupational: {standard_semesters: null, maximum_semesters: 12}
+categories:
+  - {id: core, official_name: Core, curriculum_letter: K, description: Kernmodul, source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: core_project, official_name: Core-Project, curriculum_letter: P, description: Projektmodul, source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: related, official_name: Related, curriculum_letter: E, description: Erweiterungsmodul, source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: minor, official_name: Minor, curriculum_letter: Z, description: Zusatzbereich, source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+modules:
+  - {code: TA.BA_3_D_ARCH, title: 3_D-Design Architektur, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_ADML_MM, title: Advanced Machine Learning, ects: 6, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_BRE, title: Baurecht, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_BDM, title: Big Data Management, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_DVIZ_MM, title: Data Visualisation for AI and Machine Learning, ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_INDES1_MM, title: Design Grundlagen, ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_INDES2_MM, title: Design Prototyping Grundlagen, ects: 6, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_DC_BRIDGE, title: Digital Construction BridgE (Blockwoche), ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_DC_SR1, title: Digital Construction Studienreise 1 (Blockwoche), ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_DDT, title: Digital Design Tools, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_EPRS, title: Entrepreneurship (Blockwoche), ects: 3, eligible_category_ids: [related], level: advanced, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_IMM_TECH, title: Immersive Technologies, ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_INTDE, title: Interdisziplinäres Design (Blockwoche), ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_LEAD, title: Leadership (Blockwoche), ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_ML_MM, title: Machine Learning, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_MTIV, title: Make the Invisible Visible (Summer School), ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_MG, title: Management Grundlagen, ects: 3, eligible_category_ids: [related], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_LABO, title: Materiallabor (Blockwoche), ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PYTHON_AD, title: Phyton Advanced, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_UMSBAUK, title: Seminarwoche Umsetzung und Baukultur (Blockwoche), ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: I.BA_USAB, title: Usability, ects: 3, eligible_category_ids: [related], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_BAUKLI_MM, title: Bauklimatik, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_B_GT_MM, title: Bauphysik, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_KONZEPT, title: Baukonzept, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_B_WERK, title: Bauwerk, ects: 6, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DATA1_MM, title: Data Thinking 1, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DATA2_MM, title: Data Thinking 2, ects: 6, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DATA3_MM, title: Data Thinking 3, ects: 3, eligible_category_ids: [core], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_COLLAB_MM, title: Digital Construction Collaboration, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_GRND2_MM, title: Digital Construction Grundlagen - BIM, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_GRND1_MM, title: Digital Construction Grundlagen - Transformation, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_METH, title: Digital Construction Methoden, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_TECH_MM, title: Digital Construction Technologien, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_BETR_LIFE, title: Digital Twin Betrieb & Lifecycle, ects: 3, eligible_category_ids: [core], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_CONST, title: Digital Twin Construction & Fabrication, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_DESIGN, title: Digital Twin Design & Engineering, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_GRND_MM, title: Digital Twin Grundlagen, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_PARAM, title: Digital Twin Parametrisierung, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DT_PROGR, title: Digital Twin Programmieren, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_ETHIK, title: Ethik, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_GRU_A, title: Grundlagen Architektur, ects: 6, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_KOENW, title: Konstruktives Entwerfen, ects: 3, eligible_category_ids: [core], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_ZYKLUS, title: Lebenszyklus, ects: 6, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_MATERIAL, title: Materialität, ects: 6, eligible_category_ids: [core], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_NABA, title: Nachhaltigkeit Bau, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_PYTHON_MM, title: Python Basics, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_RESS, title: Ressourcen, ects: 6, eligible_category_ids: [core], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_TRL1, title: Tragwerkslehre 1, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_WST+BAS, title: Werkstatt Basic, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_WIRK, title: Wirkung, ects: 3, eligible_category_ids: [core], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_AT_TEAM, title: Autorenschaft im Team, ects: 6, eligible_category_ids: [core_project], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_BAA_DC, title: Bachelor-Thesis Digital Construction, ects: 12, eligible_category_ids: [core_project], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_BEST, title: Bestand, ects: 6, eligible_category_ids: [core_project], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_STUD1, title: 'Digital Construction Studio 1: Modellierung und Parametrisierung', ects: 6, eligible_category_ids: [core_project], level: basic, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_STUD2, title: 'Digital Construction Studio 2: Design & Engineering', ects: 6, eligible_category_ids: [core_project], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_STUD4, title: 'Digital Construction Studio 4: Betrieb & Lifecycle', ects: 6, eligible_category_ids: [core_project], level: advanced, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_DC_STUD3, title: 'Digtial Construction Studio 3: Fabrication & Construction', ects: 6, eligible_category_ids: [core_project], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_FEI, title: Front End of Innovation (Blockwoche), ects: 3, eligible_category_ids: [core_project], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_INNO_PA, title: Innovationsprojekt, ects: 3, eligible_category_ids: [core_project], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_B_IW, title: Interdisziplinärer Workshop Bau (Blockwoche), ects: 3, eligible_category_ids: [core_project], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_INTPRO, title: International Project, ects: 6, eligible_category_ids: [core_project], level: advanced, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PRAX_VTZ_DCA, title: Praxiserfahrung Digital Construction Architecture, ects: 3, eligible_category_ids: [core_project], level: advanced, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PRAX_DCA_3, title: Praxismodul Digital Construction Architecture, ects: 3, eligible_category_ids: [core_project], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PRAX_DCA_6, title: Praxismodul Digital Construction Architecture, ects: 6, eligible_category_ids: [core_project], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_WISSARB, title: Wissenschaftliches Arbeiten, ects: 3, eligible_category_ids: [core_project], level: intermediate, mandatory: true, verification_status: unverified}
+  - {code: TA.BA_LIDE+EG_ISA, title: Aktuelle Literatur Deutsch/Englisch, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_AFU, title: Amateurfunik, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_BW+ING, title: Betriebswirtschaft für Ingenieure, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_BUSI+ENG, title: Business & Engineering Ethics, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_BIZCON, title: Business Concept - Starting up your Business, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PROF_SZ, title: C1/C2 Proficiency Development, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_CAMPUS, title: Campus Neubau, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PEAK, title: Connected English Language Learning, ects: 3, eligible_category_ids: [minor], level: advanced, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_DESG, title: Designgeschichte, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_DEFRC1_1_SZ, title: Deutsch für Fremdsprachige C1.1 Basisstufe, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, ects_restriction_note: ECTS only for incoming students; attendance open to all, verification_status: unverified}
+  - {code: TA.BA_DEFRC1_2_SZ, title: Deutsch für Fremdsprachige C1.2 Erweiterungsstufe, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, ects_restriction_note: ECTS only for incoming students; attendance open to all, verification_status: unverified}
+  - {code: TA.BA_DIGITRANS, title: Digitale Transformation und Ethik, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_ECONS, title: English B1/B2 Consolidation, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_FCE_SZ, title: English B2 First, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_EEXP, title: English B2/C1 Expertise, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_CAE_SZ, title: English C1 Advanced, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_EBP, title: English for Building Professions, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_ED+A, title: English for Interior Architects and Architects, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_GEB_SYS_ISA, title: Gebäude als System (Blockwoche), ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_GFK_ISA, title: Gewaltfreie Kommunikation (Blockwoche), ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_GDF, title: Grundlagen der Führung (Blockwoche), ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_KOHEB, title: Handeln - Verhandeln - Vermitteln (Blockwoche), ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_I40_BAS, title: Industrie 4.0 Basics, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_OEK, title: Ökologie (Blockwoche), ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_OEK_PWG, title: Ökologie zwischen Politik und Wirtschaft (Blockwoche), ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_OPEN_ISA, title: Open Innovation, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_SELL, title: Self Directed English Learning, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_SOCIAL_DCA, title: Social Project Digital Construction Architecture, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_SP1, title: Spanisch 1, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_SP2, title: Spanisch 2, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.MAA_SUSC_ISA, title: Summer School Ticino (Blockwoche), ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_SWISS_ISA, title: Swissness - Schweizer Sprache und Kultur, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, ects_restriction_note: ECTS only for foreign students; mandatory for the described incoming groups, verification_status: unverified}
+  - {code: TA.BA_TUT, title: Tutorials, ects: 3, eligible_category_ids: [minor], level: intermediate, mandatory: false, ects_restriction_note: Enrolment through module responsibility, verification_status: unverified}
+  - {code: TA.BA_VWL, title: Volkswirtschaftslehre 1, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_VWL2, title: Volkswirtschaftslehre 2, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: unverified}
+  - {code: TA.BA_PO+GE_ISA, title: Weltpolitik, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, offered_until: HS25, verification_status: unverified}
+rules:
+  - {id: graduation_total, type: min_ects_total, parameters: {type: min_ects_total, minimum_ects: 180}, description: At least 180 recognized ECTS are required., source: {document: Studienreglement Bachelor TA.pdf, page: 9}, verification_status: unverified}
+  - {id: core_minimum, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: core, ects: 90}, description: At least 90 Core ECTS are required., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: core_project_minimum, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: core_project, ects: 39}, description: At least 39 Core-Project ECTS are required., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: related_minimum, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: related, ects: 15}, description: At least 15 Related ECTS are required., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: minor_minimum, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: minor, ects: 15}, description: At least 15 Minor ECTS are required., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: mandatory_core_project, type: required_all_mandatory, parameters: {type: required_all_mandatory, category_ids: [core, core_project]}, description: All mandatory Core and Core-Project modules must be passed., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: maximum_attempts, type: max_attempts, parameters: {type: max_attempts, maximum_attempts: 3}, description: Failed assessments may be attempted only as allowed by the regulation., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: retake_budget, type: retake_budget, parameters: {type: retake_budget, ects_budget: 12, excluded_module_codes: [TA.BA_BAA_DC]}, description: Third attempts share a 12 ECTS budget and exclude the thesis., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: advanced_gate, type: level_gate, parameters: {type: level_gate, gated_level: advanced, required_level: basic, mandatory_only: true}, description: Advanced modules require passed mandatory Basic modules., source: {document: Studienreglement Bachelor TA.pdf, page: 6}, verification_status: unverified}
+  - {id: basic_deadline, type: level_deadline, parameters: {type: level_deadline, level: basic, completed_semesters: 6, mandatory_only: true}, description: Mandatory Basic modules must be passed within six completed semesters., source: {document: Studienreglement Bachelor TA.pdf, page: 5}, verification_status: unverified}
+  - {id: institution_minimum, type: min_ects_at_institution, parameters: {type: min_ects_at_institution, minimum_ects: 60}, description: At least 60 ECTS including the thesis must be acquired at HSLU T&A., source: {document: Studienreglement Bachelor TA.pdf, page: 9}, verification_status: unverified}
+  - {id: hf_recognition_cap, type: max_recognized_ects, parameters: {type: max_recognized_ects, basis: HF diploma, maximum_ects: 30}, description: HF recognition is capped at 30 ECTS., source: {document: Studienreglement Bachelor TA.pdf, page: 1}, verification_status: unverified}
+  - {id: practice_recognition_cap, type: max_recognized_ects, parameters: {type: max_recognized_ects, basis: professional practice, maximum_ects: 21, study_modes: [part_time, extra_occupational]}, description: Professional practice recognition is capped at 21 ECTS in the applicable study modes., source: {document: Studienreglement Bachelor TA.pdf, page: 8}, verification_status: unverified}
+  - {id: duration, type: max_study_duration, parameters: {type: max_study_duration, maximum_semesters: 12, maximum_interruptions: 4}, description: Study duration is limited to 12 semesters and interruptions to four., source: {document: Studienreglement Bachelor TA.pdf, page: 8}, verification_status: unverified}
+  - {id: thesis_minimum, type: min_ects_total, parameters: {type: min_ects_total, minimum_ects: 132}, description: Thesis admission requires at least 132 ECTS., source: {document: Studienreglement Bachelor TA.pdf, page: 10}, verification_status: unverified}
+  - {id: thesis_program_requirements, type: custom_note, parameters: {type: custom_note, note: Programme-specific thesis requirements require the thesis module description.}, description: Manual thesis programme requirements check., source: {document: Studienreglement Bachelor TA.pdf, page: 10}, verification_status: unverified}
+  - {id: thesis_admission, type: composite, parameters: {type: composite, operator: and, rule_ids: [thesis_minimum, thesis_program_requirements]}, description: Thesis admission goal., source: {document: Studienreglement Bachelor TA.pdf, page: 10}, verification_status: unverified}
+  - {id: graduation, type: composite, parameters: {type: composite, operator: and, rule_ids: [graduation_total, core_minimum, core_project_minimum, related_minimum, minor_minimum, mandatory_core_project, institution_minimum]}, description: Graduation goal., source: {document: Studienreglement Bachelor TA.pdf, page: 9}, verification_status: unverified}

@@ -1,0 +1,2 @@
+# Add explicit code mappings only. Do not add normalization rules or title matching.
+mappings: []

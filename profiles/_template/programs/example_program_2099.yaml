@@ -1,0 +1,12 @@
+# All values in this file are examples only. Add sources and a verification status to every fact.
+id: example_program_2099
+name: Example Program
+specialization: null
+degree: bachelor
+total_ects: 180
+intake_year: 2099
+regulation_version_id: example_regulation
+study_modes: {full_time: {standard_semesters: 6, maximum_semesters: 12}}
+categories: []
+modules: []
+rules: []

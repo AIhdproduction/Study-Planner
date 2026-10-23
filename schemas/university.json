@@ -1,0 +1,191 @@
+{
+  "$defs": {
+    "ManualSource": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "instructions": {
+          "title": "Instructions",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "instructions"
+      ],
+      "title": "ManualSource",
+      "type": "object"
+    },
+    "RegulationVersion": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "document": {
+          "$ref": "#/$defs/SourceReference"
+        },
+        "valid_intake_years": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Valid Intake Years",
+          "type": "array"
+        },
+        "retrieval_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieval Date"
+        },
+        "transition_text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Transition Text"
+        },
+        "previous_version_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Previous Version Id"
+        }
+      },
+      "required": [
+        "id",
+        "document",
+        "valid_intake_years"
+      ],
+      "title": "RegulationVersion",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "title": "Document",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved On"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "regulation_versions": {
+      "items": {
+        "$ref": "#/$defs/RegulationVersion"
+      },
+      "title": "Regulation Versions",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/SourceReference"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "manual_sources": {
+      "items": {
+        "$ref": "#/$defs/ManualSource"
+      },
+      "title": "Manual Sources",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "regulation_versions"
+  ],
+  "title": "University",
+  "type": "object"
+}

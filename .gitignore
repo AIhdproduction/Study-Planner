@@ -1,0 +1,41 @@
+# Personal study data of whoever uses this checkout. Only the empty folder skeleton is committed.
+my_study/**
+!my_study/**/
+!my_study/**/.gitkeep
+
+# Real documents and golden file of the maintainer. Never commit.
+tests/fixtures/real/
+
+# Downloaded official documents (phase 3)
+sources/
+
+# Python and uv
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.pytest-tmp/
+.test-temp/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Office lock and temp files
+~$*
+*.tmp
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Delegation brief files
+_codex_brief*.md

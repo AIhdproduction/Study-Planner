@@ -1,0 +1,60 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "university_id": {
+      "title": "University Id",
+      "type": "string"
+    },
+    "program_id": {
+      "title": "Program Id",
+      "type": "string"
+    },
+    "intake_year": {
+      "title": "Intake Year",
+      "type": "integer"
+    },
+    "study_mode": {
+      "enum": [
+        "full_time",
+        "part_time",
+        "extra_occupational"
+      ],
+      "title": "Study Mode",
+      "type": "string"
+    },
+    "start_semester": {
+      "title": "Start Semester",
+      "type": "string"
+    },
+    "regulation_version_id": {
+      "title": "Regulation Version Id",
+      "type": "string"
+    },
+    "language": {
+      "enum": [
+        "en",
+        "de"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "interruption_semesters": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Interruption Semesters",
+      "type": "array"
+    }
+  },
+  "required": [
+    "university_id",
+    "program_id",
+    "intake_year",
+    "study_mode",
+    "start_semester",
+    "regulation_version_id",
+    "language"
+  ],
+  "title": "StudentProfile",
+  "type": "object"
+}

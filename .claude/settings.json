@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(uv run studyplan *)",
+      "Bash(uv sync)"
+    ],
+    "deny": [
+      "Read(/my_study/inbox/transcript/**)",
+      "Read(/my_study/inbox/recognition/**)",
+      "WebFetch(domain:modulverzeichnis.hslu.ch)"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+id: synthetic_u
+name: Synthetic University
+regulation_versions:
+  - id: synthetic_2099
+    document: {document: synthetic-regulation.pdf, page: 1}
+    valid_intake_years: [2099]
+sources: []
+manual_sources: []

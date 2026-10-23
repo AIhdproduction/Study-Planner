@@ -1,0 +1,1049 @@
+{
+  "$defs": {
+    "CategoryEctsParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "min_ects_in_category",
+            "max_ects_in_category"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "category_id": {
+          "title": "Category Id",
+          "type": "string"
+        },
+        "ects": {
+          "exclusiveMinimum": 0,
+          "title": "Ects",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "category_id",
+        "ects"
+      ],
+      "title": "CategoryEctsParameters",
+      "type": "object"
+    },
+    "CompositeParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "composite",
+          "title": "Type",
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "and",
+            "or"
+          ],
+          "title": "Operator",
+          "type": "string"
+        },
+        "rule_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Rule Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "operator",
+        "rule_ids"
+      ],
+      "title": "CompositeParameters",
+      "type": "object"
+    },
+    "CustomNoteParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "custom_note",
+          "title": "Type",
+          "type": "string"
+        },
+        "note": {
+          "title": "Note",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "note"
+      ],
+      "title": "CustomNoteParameters",
+      "type": "object"
+    },
+    "LevelDeadlineParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "level_deadline",
+          "title": "Type",
+          "type": "string"
+        },
+        "level": {
+          "enum": [
+            "basic",
+            "intermediate",
+            "advanced"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "completed_semesters": {
+          "exclusiveMinimum": 0,
+          "title": "Completed Semesters",
+          "type": "integer"
+        },
+        "mandatory_only": {
+          "default": true,
+          "title": "Mandatory Only",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "level",
+        "completed_semesters"
+      ],
+      "title": "LevelDeadlineParameters",
+      "type": "object"
+    },
+    "LevelGateParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "level_gate",
+          "title": "Type",
+          "type": "string"
+        },
+        "gated_level": {
+          "enum": [
+            "basic",
+            "intermediate",
+            "advanced"
+          ],
+          "title": "Gated Level",
+          "type": "string"
+        },
+        "required_level": {
+          "enum": [
+            "basic",
+            "intermediate",
+            "advanced"
+          ],
+          "title": "Required Level",
+          "type": "string"
+        },
+        "mandatory_only": {
+          "default": true,
+          "title": "Mandatory Only",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "type",
+        "gated_level",
+        "required_level"
+      ],
+      "title": "LevelGateParameters",
+      "type": "object"
+    },
+    "MaxAttemptsParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "max_attempts",
+          "title": "Type",
+          "type": "string"
+        },
+        "maximum_attempts": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Attempts",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "maximum_attempts"
+      ],
+      "title": "MaxAttemptsParameters",
+      "type": "object"
+    },
+    "MaxRecognizedParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "max_recognized_ects",
+          "title": "Type",
+          "type": "string"
+        },
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "maximum_ects": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Ects",
+          "type": "integer"
+        },
+        "study_modes": {
+          "anyOf": [
+            {
+              "items": {
+                "enum": [
+                  "full_time",
+                  "part_time",
+                  "extra_occupational"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Study Modes"
+        }
+      },
+      "required": [
+        "type",
+        "basis",
+        "maximum_ects"
+      ],
+      "title": "MaxRecognizedParameters",
+      "type": "object"
+    },
+    "MaxStudyDurationParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "max_study_duration",
+          "title": "Type",
+          "type": "string"
+        },
+        "maximum_semesters": {
+          "exclusiveMinimum": 0,
+          "title": "Maximum Semesters",
+          "type": "integer"
+        },
+        "maximum_interruptions": {
+          "minimum": 0,
+          "title": "Maximum Interruptions",
+          "type": "integer"
+        },
+        "study_modes": {
+          "anyOf": [
+            {
+              "items": {
+                "enum": [
+                  "full_time",
+                  "part_time",
+                  "extra_occupational"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Study Modes"
+        }
+      },
+      "required": [
+        "type",
+        "maximum_semesters",
+        "maximum_interruptions"
+      ],
+      "title": "MaxStudyDurationParameters",
+      "type": "object"
+    },
+    "MinEctsInstitutionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "min_ects_at_institution",
+          "title": "Type",
+          "type": "string"
+        },
+        "minimum_ects": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Ects",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "minimum_ects"
+      ],
+      "title": "MinEctsInstitutionParameters",
+      "type": "object"
+    },
+    "MinEctsTotalParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "min_ects_total",
+          "title": "Type",
+          "type": "string"
+        },
+        "minimum_ects": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Ects",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "minimum_ects"
+      ],
+      "title": "MinEctsTotalParameters",
+      "type": "object"
+    },
+    "MinModulesCategoryParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "min_modules_in_category",
+          "title": "Type",
+          "type": "string"
+        },
+        "category_id": {
+          "title": "Category Id",
+          "type": "string"
+        },
+        "minimum_modules": {
+          "exclusiveMinimum": 0,
+          "title": "Minimum Modules",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "category_id",
+        "minimum_modules"
+      ],
+      "title": "MinModulesCategoryParameters",
+      "type": "object"
+    },
+    "Module": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "ects": {
+          "exclusiveMinimum": 0,
+          "title": "Ects",
+          "type": "integer"
+        },
+        "eligible_category_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Eligible Category Ids",
+          "type": "array"
+        },
+        "level": {
+          "enum": [
+            "basic",
+            "intermediate",
+            "advanced"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "mandatory": {
+          "title": "Mandatory",
+          "type": "boolean"
+        },
+        "semesters_offered": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Semesters Offered",
+          "type": "array"
+        },
+        "offering_frequency": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Offering Frequency"
+        },
+        "prerequisites": {
+          "items": {
+            "$ref": "#/$defs/Prerequisite"
+          },
+          "title": "Prerequisites",
+          "type": "array"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Language"
+        },
+        "ects_restriction_note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ects Restriction Note"
+        },
+        "offered_until": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Offered Until"
+        },
+        "predecessor_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Predecessor Codes",
+          "type": "array"
+        },
+        "successor_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Successor Codes",
+          "type": "array"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "title",
+        "ects",
+        "eligible_category_ids",
+        "level",
+        "mandatory",
+        "verification_status"
+      ],
+      "title": "Module",
+      "type": "object"
+    },
+    "ModuleCategory": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "official_name": {
+          "title": "Official Name",
+          "type": "string"
+        },
+        "curriculum_letter": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Curriculum Letter"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "official_name",
+        "verification_status"
+      ],
+      "title": "ModuleCategory",
+      "type": "object"
+    },
+    "Prerequisite": {
+      "additionalProperties": false,
+      "properties": {
+        "module_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module Code"
+        },
+        "rule_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rule Id"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        }
+      },
+      "title": "Prerequisite",
+      "type": "object"
+    },
+    "PrerequisiteParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "prerequisite",
+          "title": "Type",
+          "type": "string"
+        },
+        "module_code": {
+          "title": "Module Code",
+          "type": "string"
+        },
+        "prerequisite_module_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Prerequisite Module Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "module_code",
+        "prerequisite_module_codes"
+      ],
+      "title": "PrerequisiteParameters",
+      "type": "object"
+    },
+    "RequiredAllMandatoryParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "required_all_mandatory",
+          "title": "Type",
+          "type": "string"
+        },
+        "category_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Category Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "category_ids"
+      ],
+      "title": "RequiredAllMandatoryParameters",
+      "type": "object"
+    },
+    "RequiredModuleParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "required_module",
+          "title": "Type",
+          "type": "string"
+        },
+        "module_code": {
+          "title": "Module Code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "module_code"
+      ],
+      "title": "RequiredModuleParameters",
+      "type": "object"
+    },
+    "RequiredOneOfParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "required_one_of",
+          "title": "Type",
+          "type": "string"
+        },
+        "module_codes": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Module Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "module_codes"
+      ],
+      "title": "RequiredOneOfParameters",
+      "type": "object"
+    },
+    "RetakeBudgetParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "retake_budget",
+          "title": "Type",
+          "type": "string"
+        },
+        "ects_budget": {
+          "exclusiveMinimum": 0,
+          "title": "Ects Budget",
+          "type": "integer"
+        },
+        "excluded_module_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded Module Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "ects_budget"
+      ],
+      "title": "RetakeBudgetParameters",
+      "type": "object"
+    },
+    "Rule": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "min_ects_total",
+            "min_ects_in_category",
+            "max_ects_in_category",
+            "required_module",
+            "required_all_mandatory",
+            "required_one_of",
+            "min_modules_in_category",
+            "prerequisite",
+            "max_attempts",
+            "retake_budget",
+            "level_gate",
+            "level_deadline",
+            "min_ects_at_institution",
+            "max_recognized_ects",
+            "max_study_duration",
+            "composite",
+            "custom_note"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "parameters": {
+          "discriminator": {
+            "mapping": {
+              "composite": "#/$defs/CompositeParameters",
+              "custom_note": "#/$defs/CustomNoteParameters",
+              "level_deadline": "#/$defs/LevelDeadlineParameters",
+              "level_gate": "#/$defs/LevelGateParameters",
+              "max_attempts": "#/$defs/MaxAttemptsParameters",
+              "max_ects_in_category": "#/$defs/CategoryEctsParameters",
+              "max_recognized_ects": "#/$defs/MaxRecognizedParameters",
+              "max_study_duration": "#/$defs/MaxStudyDurationParameters",
+              "min_ects_at_institution": "#/$defs/MinEctsInstitutionParameters",
+              "min_ects_in_category": "#/$defs/CategoryEctsParameters",
+              "min_ects_total": "#/$defs/MinEctsTotalParameters",
+              "min_modules_in_category": "#/$defs/MinModulesCategoryParameters",
+              "prerequisite": "#/$defs/PrerequisiteParameters",
+              "required_all_mandatory": "#/$defs/RequiredAllMandatoryParameters",
+              "required_module": "#/$defs/RequiredModuleParameters",
+              "required_one_of": "#/$defs/RequiredOneOfParameters",
+              "retake_budget": "#/$defs/RetakeBudgetParameters"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/MinEctsTotalParameters"
+            },
+            {
+              "$ref": "#/$defs/CategoryEctsParameters"
+            },
+            {
+              "$ref": "#/$defs/RequiredModuleParameters"
+            },
+            {
+              "$ref": "#/$defs/RequiredAllMandatoryParameters"
+            },
+            {
+              "$ref": "#/$defs/RequiredOneOfParameters"
+            },
+            {
+              "$ref": "#/$defs/MinModulesCategoryParameters"
+            },
+            {
+              "$ref": "#/$defs/PrerequisiteParameters"
+            },
+            {
+              "$ref": "#/$defs/MaxAttemptsParameters"
+            },
+            {
+              "$ref": "#/$defs/RetakeBudgetParameters"
+            },
+            {
+              "$ref": "#/$defs/LevelGateParameters"
+            },
+            {
+              "$ref": "#/$defs/LevelDeadlineParameters"
+            },
+            {
+              "$ref": "#/$defs/MinEctsInstitutionParameters"
+            },
+            {
+              "$ref": "#/$defs/MaxRecognizedParameters"
+            },
+            {
+              "$ref": "#/$defs/MaxStudyDurationParameters"
+            },
+            {
+              "$ref": "#/$defs/CompositeParameters"
+            },
+            {
+              "$ref": "#/$defs/CustomNoteParameters"
+            }
+          ],
+          "title": "Parameters"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "source": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SourceReference"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "parameters",
+        "description",
+        "verification_status"
+      ],
+      "title": "Rule",
+      "type": "object"
+    },
+    "SourceReference": {
+      "additionalProperties": false,
+      "properties": {
+        "document": {
+          "title": "Document",
+          "type": "string"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Page"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        },
+        "retrieved_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Retrieved On"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "document"
+      ],
+      "title": "SourceReference",
+      "type": "object"
+    },
+    "StudyModeDuration": {
+      "additionalProperties": false,
+      "properties": {
+        "standard_semesters": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Standard Semesters"
+        },
+        "maximum_semesters": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Semesters"
+        }
+      },
+      "title": "StudyModeDuration",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "specialization": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Specialization"
+    },
+    "degree": {
+      "title": "Degree",
+      "type": "string"
+    },
+    "total_ects": {
+      "exclusiveMinimum": 0,
+      "title": "Total Ects",
+      "type": "integer"
+    },
+    "intake_year": {
+      "title": "Intake Year",
+      "type": "integer"
+    },
+    "study_modes": {
+      "additionalProperties": {
+        "$ref": "#/$defs/StudyModeDuration"
+      },
+      "propertyNames": {
+        "enum": [
+          "full_time",
+          "part_time",
+          "extra_occupational"
+        ]
+      },
+      "title": "Study Modes",
+      "type": "object"
+    },
+    "regulation_version_id": {
+      "title": "Regulation Version Id",
+      "type": "string"
+    },
+    "categories": {
+      "items": {
+        "$ref": "#/$defs/ModuleCategory"
+      },
+      "title": "Categories",
+      "type": "array"
+    },
+    "modules": {
+      "items": {
+        "$ref": "#/$defs/Module"
+      },
+      "title": "Modules",
+      "type": "array"
+    },
+    "rules": {
+      "items": {
+        "$ref": "#/$defs/Rule"
+      },
+      "title": "Rules",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "degree",
+    "total_ects",
+    "intake_year",
+    "study_modes",
+    "regulation_version_id",
+    "categories",
+    "modules",
+    "rules"
+  ],
+  "title": "Program",
+  "type": "object"
+}
