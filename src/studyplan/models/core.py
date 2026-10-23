@@ -127,6 +127,17 @@ class Module(Model):
     verification_status: VerificationStatus
 
 
+class ModelTimetableEntry(Model):
+    """A module placement extracted from an official model timetable."""
+
+    module_code: str
+    relative_semester: PositiveInt
+    recommended: bool = False
+    offered_terms: list[Literal["HS", "FS"]]
+    source: SourceReference
+    verification_status: VerificationStatus
+
+
 class RuleParameters(Model):
     type: str
 
@@ -305,6 +316,9 @@ class Program(Model):
     categories: list[ModuleCategory]
     modules: list[Module]
     rules: list[Rule]
+    model_timetables: dict[StudyMode, dict[Literal["HS", "FS"], list[ModelTimetableEntry]]] = Field(
+        default_factory=dict
+    )
 
 
 class StudentProfile(Model):
@@ -352,15 +366,28 @@ class CreditsFile(Model):
 
 
 class PlanItem(Model):
-    module_code: str
+    module_code: str | None = None
     target_semester: Semester
     source: SourceReference | None = None
-    status: Literal["planned", "running"]
+    status: Literal["passed", "running", "planned", "failed", "retake"]
+    origin: Literal["credits", "generated", "manual"] = "generated"
+    note: str | None = None
+    attempt: PositiveInt | None = None
     mapping_verification_status: VerificationStatus | None = None
+
+
+class PlanPlaceholder(Model):
+    category_id: str
+    ects_needed: PositiveInt
+    suggested_module_codes: list[str] = Field(default_factory=list)
+    target_semester: Semester
+    origin: Literal["generated", "manual"] = "generated"
+    note: str | None = None
 
 
 class PlanFile(Model):
     planned_modules: list[PlanItem] = Field(default_factory=list)
+    placeholders: list[PlanPlaceholder] = Field(default_factory=list)
 
 
 class ChecklistItem(Model):

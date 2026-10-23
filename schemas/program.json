@@ -340,6 +340,58 @@
       "title": "MinModulesCategoryParameters",
       "type": "object"
     },
+    "ModelTimetableEntry": {
+      "additionalProperties": false,
+      "description": "A module placement extracted from an official model timetable.",
+      "properties": {
+        "module_code": {
+          "title": "Module Code",
+          "type": "string"
+        },
+        "relative_semester": {
+          "exclusiveMinimum": 0,
+          "title": "Relative Semester",
+          "type": "integer"
+        },
+        "recommended": {
+          "default": false,
+          "title": "Recommended",
+          "type": "boolean"
+        },
+        "offered_terms": {
+          "items": {
+            "enum": [
+              "HS",
+              "FS"
+            ],
+            "type": "string"
+          },
+          "title": "Offered Terms",
+          "type": "array"
+        },
+        "source": {
+          "$ref": "#/$defs/SourceReference"
+        },
+        "verification_status": {
+          "enum": [
+            "unverified",
+            "verified",
+            "edited"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "module_code",
+        "relative_semester",
+        "offered_terms",
+        "source",
+        "verification_status"
+      ],
+      "title": "ModelTimetableEntry",
+      "type": "object"
+    },
     "Module": {
       "additionalProperties": false,
       "properties": {
@@ -1030,6 +1082,32 @@
       },
       "title": "Rules",
       "type": "array"
+    },
+    "model_timetables": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "items": {
+            "$ref": "#/$defs/ModelTimetableEntry"
+          },
+          "type": "array"
+        },
+        "propertyNames": {
+          "enum": [
+            "HS",
+            "FS"
+          ]
+        },
+        "type": "object"
+      },
+      "propertyNames": {
+        "enum": [
+          "full_time",
+          "part_time",
+          "extra_occupational"
+        ]
+      },
+      "title": "Model Timetables",
+      "type": "object"
     }
   },
   "required": [

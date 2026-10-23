@@ -13,7 +13,7 @@ Open source study planner that students clone from GitHub and drive with Claude 
 - A Python command line tool `studyplan` is the single source of truth for every verdict. Slash commands only call it, read its output and explain it. Claude Code never computes a verdict, a sum or an allocation itself.
 - There is no web UI and no database. All state lives in human readable YAML files validated by Pydantic.
 
-The work is split into four phases. Each phase has its own prompt in `prompts/`. Only implement the phase you are asked for. Never implement features of later phases in advance, but keep interfaces open for them.
+The work is split into four phases plus phase 1b (study plan, pulled forward from phase 4). Each phase has its own prompt in `prompts/`. Only implement the phase you are asked for. Never implement features of later phases in advance, but keep interfaces open for them.
 
 ## Working Rules
 - Deliver complete files. No placeholders, no TODOs, no omitted code, no "rest unchanged".
@@ -66,8 +66,10 @@ The work is split into four phases. Each phase has its own prompt in `prompts/`.
 | `studyplan diff <draft>` / `studyplan accept <draft>` | 2 | Show and merge a draft after confirmation. |
 | `studyplan consent log --file <name> --decision yes\|no` | 2 | Append a consent decision to `my_study/logs/consent.log`. |
 | `studyplan fetch` / `studyplan report` | 3 | Fetch public program documents and show the change report. |
+| `studyplan plan generate` | 1b | Build a first semester plan from credits, running modules and the model timetable. |
+| `studyplan plan` / `studyplan plan add\|move\|remove` | 1b | Check `plan.yaml` (ECTS per semester, offering terms, level gate, deadlines, earliest admission semester) and edit it. |
 | `studyplan timetable import <file>` | 4 | Import ICS, CSV, XLSX timetables. |
-| `studyplan plan` / `studyplan suggest` | 4 | Check `plan.yaml`, timetable conflicts, earliest admission semester, gap closing suggestions. |
+| `studyplan suggest` | 4 | Gap closing suggestions; timetable conflicts added to `studyplan plan`. |
 
 Exit codes: `0` success, `1` validation or rule errors found (output still complete), `2` usage or file errors.
 

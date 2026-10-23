@@ -8,11 +8,12 @@ Not legally binding. The official study regulations and the program management d
 
 ## Status
 
-Phase 1 is done. The working slash commands are `/setup`, `/credits` (including the local MyCampus import), `/check`, and `/excel`. The remaining commands become available with their respective phases.
+Phases 1 and 1b are done. The working slash commands are `/setup`, `/credits` (including the local MyCampus import), `/check`, `/plan`, and `/excel`. The remaining commands become available with their respective phases.
 
 | Phase | Scope | Status |
 |---|---|---|
 | 1 | Data model, rule engine, CLI, and Excel export | done |
+| 1b | Semester plan generator, conditions, and Excel plan sheets | done |
 | 2 | Document import through Claude Code | planned |
 | 3 | Public program-data fetch and change reporting | planned |
 | 4 | Semester planning and timetable support | planned |
@@ -50,6 +51,19 @@ uv run studyplan check --mode current
 uv run studyplan excel --mode current
 uv run studyplan backup
 ```
+
+## Study plan
+
+All values below are invented examples. Generate a first plan from your saved credits and the published model timetable, review its checks, then adjust individual modules if needed.
+
+```powershell
+uv run studyplan plan generate --current-semester HS29
+uv run studyplan plan --json
+uv run studyplan plan move --code SYN.EXAMPLE --semester FS30
+uv run studyplan excel --mode forecast
+```
+
+`plan generate` preserves manual choices. The Excel workbook includes the Study Plan and Semester Overview sheets with planned ECTS, conditions, status colors, and the earliest thesis-admission semester. Timetable-slot imports remain unavailable until phase 4.
 
 ## What to tell Claude Code
 

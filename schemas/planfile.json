@@ -4,8 +4,16 @@
       "additionalProperties": false,
       "properties": {
         "module_code": {
-          "title": "Module Code",
-          "type": "string"
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Module Code"
         },
         "target_semester": {
           "title": "Target Semester",
@@ -24,11 +32,49 @@
         },
         "status": {
           "enum": [
+            "passed",
+            "running",
             "planned",
-            "running"
+            "failed",
+            "retake"
           ],
           "title": "Status",
           "type": "string"
+        },
+        "origin": {
+          "default": "generated",
+          "enum": [
+            "credits",
+            "generated",
+            "manual"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        },
+        "attempt": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Attempt"
         },
         "mapping_verification_status": {
           "anyOf": [
@@ -49,11 +95,63 @@
         }
       },
       "required": [
-        "module_code",
         "target_semester",
         "status"
       ],
       "title": "PlanItem",
+      "type": "object"
+    },
+    "PlanPlaceholder": {
+      "additionalProperties": false,
+      "properties": {
+        "category_id": {
+          "title": "Category Id",
+          "type": "string"
+        },
+        "ects_needed": {
+          "exclusiveMinimum": 0,
+          "title": "Ects Needed",
+          "type": "integer"
+        },
+        "suggested_module_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Suggested Module Codes",
+          "type": "array"
+        },
+        "target_semester": {
+          "title": "Target Semester",
+          "type": "string"
+        },
+        "origin": {
+          "default": "generated",
+          "enum": [
+            "generated",
+            "manual"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Note"
+        }
+      },
+      "required": [
+        "category_id",
+        "ects_needed",
+        "target_semester"
+      ],
+      "title": "PlanPlaceholder",
       "type": "object"
     },
     "SourceReference": {
@@ -130,6 +228,13 @@
         "$ref": "#/$defs/PlanItem"
       },
       "title": "Planned Modules",
+      "type": "array"
+    },
+    "placeholders": {
+      "items": {
+        "$ref": "#/$defs/PlanPlaceholder"
+      },
+      "title": "Placeholders",
       "type": "array"
     }
   },

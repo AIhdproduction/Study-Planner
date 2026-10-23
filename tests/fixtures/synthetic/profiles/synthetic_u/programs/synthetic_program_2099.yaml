@@ -22,10 +22,12 @@ modules:
   - {code: SYN.ALT_A, title: Synthetic Alternative A, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: verified}
   - {code: SYN.ALT_B, title: Synthetic Alternative B, ects: 3, eligible_category_ids: [minor], level: basic, mandatory: false, verification_status: verified}
   - {code: SYN.RENAMED, title: Synthetic Renamed, ects: 3, eligible_category_ids: [core], level: basic, mandatory: false, predecessor_codes: [SYN.OLD], verification_status: verified}
+  - {code: SYN.BAA, title: Synthetic Thesis, ects: 3, eligible_category_ids: [project], level: advanced, mandatory: false, verification_status: verified}
 rules:
   - {id: total, type: min_ects_total, parameters: {type: min_ects_total, minimum_ects: 12}, description: Total ECTS., verification_status: verified}
   - {id: core_min, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: core, ects: 3}, description: Core ECTS., verification_status: verified}
   - {id: project_min, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: project, ects: 3}, description: Project ECTS., verification_status: verified}
+  - {id: related_min, type: min_ects_in_category, parameters: {type: min_ects_in_category, category_id: related, ects: 3}, description: Related ECTS., verification_status: verified}
   - {id: core_cap, type: max_ects_in_category, parameters: {type: max_ects_in_category, category_id: core, ects: 6}, description: Core cap., verification_status: verified}
   - {id: required, type: required_module, parameters: {type: required_module, module_code: SYN.CORE1}, description: Required module., verification_status: verified}
   - {id: mandatory, type: required_all_mandatory, parameters: {type: required_all_mandatory, category_ids: [core, project]}, description: Mandatory modules., verification_status: verified}
@@ -42,3 +44,13 @@ rules:
   - {id: manual_note, type: custom_note, parameters: {type: custom_note, note: Confirm the synthetic requirement.}, description: Manual requirement., verification_status: verified}
   - {id: thesis_admission, type: composite, parameters: {type: composite, operator: and, rule_ids: [total, manual_note]}, description: Thesis goal., verification_status: verified}
   - {id: graduation, type: composite, parameters: {type: composite, operator: and, rule_ids: [total, core_min, project_min, mandatory]}, description: Graduation goal., verification_status: verified}
+model_timetables:
+  part_time:
+    HS:
+      - {module_code: SYN.CORE1, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.CORE2, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.PROJECT1, relative_semester: 3, recommended: false, offered_terms: [HS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.ADVANCED, relative_semester: 3, recommended: true, offered_terms: [HS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.RELATED1, relative_semester: 2, recommended: true, offered_terms: [FS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.MINOR1, relative_semester: 3, recommended: true, offered_terms: [HS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}
+      - {module_code: SYN.BAA, relative_semester: 4, recommended: false, offered_terms: [FS], source: {document: synthetic-model.pdf, page: 1}, verification_status: verified}

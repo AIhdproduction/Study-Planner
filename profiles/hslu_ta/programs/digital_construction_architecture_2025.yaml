@@ -135,3 +135,44 @@ rules:
   - {id: thesis_program_requirements, type: custom_note, parameters: {type: custom_note, note: Programme-specific thesis requirements require the thesis module description.}, description: Manual thesis programme requirements check., source: {document: Studienreglement Bachelor TA.pdf, page: 10}, verification_status: unverified}
   - {id: thesis_admission, type: composite, parameters: {type: composite, operator: and, rule_ids: [thesis_minimum, thesis_program_requirements]}, description: Thesis admission goal., source: {document: Studienreglement Bachelor TA.pdf, page: 10}, verification_status: unverified}
   - {id: graduation, type: composite, parameters: {type: composite, operator: and, rule_ids: [graduation_total, core_minimum, core_project_minimum, related_minimum, minor_minimum, mandatory_core_project, institution_minimum]}, description: Graduation goal., source: {document: Studienreglement Bachelor TA.pdf, page: 9}, verification_status: unverified}
+model_timetables:
+  part_time:
+    HS:
+      - {module_code: TA.BA_DC_BRIDGE, relative_semester: 1, recommended: true, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_GRND1_MM, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_GRND2_MM, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_GRND_MM, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_GRU_A, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_NABA, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_PYTHON_MM, relative_semester: 1, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_METH, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_SR1, relative_semester: 2, recommended: true, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_STUD1, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_PARAM, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_KOENW, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_WIRK, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_ZYKLUS, relative_semester: 2, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DATA1_MM, relative_semester: 3, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_B_WERK, relative_semester: 3, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_TECH_MM, relative_semester: 3, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_PROGR, relative_semester: 3, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_AT_TEAM, relative_semester: 4, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_COLLAB_MM, relative_semester: 4, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_IMM_TECH, relative_semester: 4, recommended: true, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_KONZEPT, relative_semester: 4, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_WISSARB, relative_semester: 4, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_BRE, relative_semester: 5, recommended: true, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_STUD2, relative_semester: 5, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_DESIGN, relative_semester: 5, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_RESS, relative_semester: 5, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_TRL1, relative_semester: 5, recommended: true, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_BAUKLI_MM, relative_semester: 6, recommended: true, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_B_IW, relative_semester: 6, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DATA2_MM, relative_semester: 6, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_STUD3, relative_semester: 6, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_CONST, relative_semester: 6, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_BEST, relative_semester: 7, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DATA3_MM, relative_semester: 7, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DC_STUD4, relative_semester: 7, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_DT_BETR_LIFE, relative_semester: 7, recommended: false, offered_terms: [HS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}
+      - {module_code: TA.BA_BAA_DC, relative_semester: 8, recommended: false, offered_terms: [FS], source: {document: DCA Musterstundenplan Arch Teilzeit.pdf, page: 1}, verification_status: unverified}

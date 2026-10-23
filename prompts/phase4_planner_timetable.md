@@ -5,6 +5,8 @@ Read `AGENTS.md` completely before starting. Phases 1 to 3 are done and their te
 ## Goal
 Students plan their remaining semesters together with Claude Code through `/plan`, see timetable conflicts and know whether the plan leads to thesis admission and graduation in time.
 
+Phase 1b already delivered `plan.yaml`, `plan generate`, the plan checks without timetable slots, `plan add|move|remove` and the Excel sheets Study Plan and Semester Overview. This phase extends them: timetable import, time slot conflicts, `suggest`, and the Timetable sheet. Do not rebuild what phase 1b provides.
+
 ## Timetable Import
 - `studyplan timetable import <file>`: ICS with icalendar, CSV and XLSX with a column mapping given as options (Claude Code asks the student and passes them).
 - PDF timetables (for example the HSLU model timetable) go through the phase 2 import flow and produce a timetable draft.

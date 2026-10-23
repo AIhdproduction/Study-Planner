@@ -17,6 +17,7 @@ from rich.console import Console
 from selectolax.lexbor import LexborHTMLParser
 
 from studyplan.engine.matching import match_code
+from studyplan.engine.plan import current_semester, generate_plan, plan_report, semester_key
 from studyplan.engine.rules import CheckResult, evaluate
 from studyplan.exporters.excel import export_workbook
 from studyplan.i18n import (
@@ -50,7 +51,9 @@ from studyplan.models.core import Semester, University
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 credits_app = typer.Typer(no_args_is_help=True)
+plan_app = typer.Typer(invoke_without_command=True, no_args_is_help=False)
 app.add_typer(credits_app, name="credits")
+app.add_typer(plan_app, name="plan")
 DISCLAIMER = (
     "Not legally binding. The official study regulations and the program management decide."
 )
@@ -143,6 +146,15 @@ def _credit_valid(
             and existing.attempt == item.attempt
         ):
             raise typer.BadParameter("Duplicate module attempt.")
+
+
+def _plan_file() -> PlanFile:
+    return load_model(_study() / "plan.yaml", PlanFile)
+
+
+def _plan_valid_code(program: Program, code: str) -> None:
+    if code not in {module.code for module in program.modules}:
+        raise typer.BadParameter(f"Unknown module code: {code}")
 
 
 @app.command()
@@ -646,6 +658,7 @@ def import_mycampus(
                         module_code=row["module_code"],
                         target_semester=Semester(row["semester"]),
                         status="running",
+                        origin="credits",
                         source=SourceReference(document=file.name),
                         mapping_verification_status=row.get("mapping_verification_status"),
                     )
@@ -671,6 +684,145 @@ def import_mycampus(
     _out(results, as_json)
 
 
+@plan_app.callback()
+def plan(
+    ctx: typer.Context,
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Check the saved semester plan."""
+    if ctx.invoked_subcommand is not None:
+        return
+    report = plan_report(
+        _program(),
+        _student(),
+        _credits(),
+        _plan_file(),
+        load_model(_study() / "checklist.yaml", ChecklistFile),
+    )
+    if as_json:
+        _out(report, True)
+        return
+    lines = ["Semester plan:"]
+    for semester, row in report["semesters"].items():
+        lines.append(
+            f"- {semester}: {row['planned_ects']} ECTS planned, "
+            f"{row['cumulative_ects']} ECTS cumulative"
+        )
+    admission = report["earliest_thesis_admission_semester"] or "unknown"
+    if admission != "unknown" and _language() == "de":
+        admission_value = Semester(admission)
+        year, term = admission_value.sort_key
+        previous = Semester(f"{'HS' if term == 0 else 'FS'}{(year - (term == 0)) % 100:02d}")
+        lines.append(
+            f"Thesis frühestens: {admission} "
+            f"({report['thesis_admission_threshold']} ECTS erreicht Ende {previous})"
+        )
+    else:
+        lines.append(f"Earliest thesis admission semester: {admission}")
+    lines.append(
+        f"Earliest graduation semester: {report['earliest_graduation_semester'] or 'unknown'}"
+    )
+    lines.extend(f"- Warning: {item}" for item in report["violations"])
+    _out("\n".join(lines))
+
+
+@plan_app.command("generate")
+def plan_generate(
+    current: str | None = typer.Option(None, "--current-semester"),
+    force: bool = typer.Option(False, "--force"),
+    as_json: bool = typer.Option(False, "--json"),
+) -> None:
+    """Generate a deterministic first-semester plan from credits and the model timetable."""
+    now = Semester(current) if current else current_semester()
+    generated, warnings = generate_plan(
+        _program(),
+        _student(),
+        _credits(),
+        _plan_file(),
+        load_model(_study() / "checklist.yaml", ChecklistFile),
+        now,
+        force,
+    )
+    save_model(_study() / "plan.yaml", generated)
+    payload = {"plan": generated.model_dump(mode="json"), "warnings": warnings}
+    _out(
+        payload
+        if as_json
+        else "Study plan generated." + ("\n" + "\n".join(warnings) if warnings else ""),
+        as_json,
+    )
+
+
+@plan_app.command("add")
+def plan_add(
+    code: str = typer.Option(..., "--code"),
+    semester: str = typer.Option(..., "--semester"),
+    status: str = typer.Option("planned", "--status"),
+    note: str | None = typer.Option(None, "--note"),
+) -> None:
+    """Add a manually controlled plan item."""
+    if status not in {"planned", "running", "retake"}:
+        raise typer.BadParameter("Status must be planned, running, or retake.")
+    program, plan_file = _program(), _plan_file()
+    _plan_valid_code(program, code)
+    target = Semester(semester)
+    if any(
+        item.module_code == code and item.target_semester == target
+        for item in plan_file.planned_modules
+    ):
+        raise typer.BadParameter("That module is already planned in this semester.")
+    plan_file.planned_modules.append(
+        PlanItem(
+            module_code=code, target_semester=target, status=status, origin="manual", note=note
+        )
+    )
+    save_model(_study() / "plan.yaml", plan_file)
+    _out("Manual plan item added.")
+
+
+@plan_app.command("move")
+def plan_move(
+    code: str = typer.Option(..., "--code"),
+    semester: str = typer.Option(..., "--semester"),
+) -> None:
+    """Move a module and mark the choice as manual."""
+    target = Semester(semester)
+    plan_file = _plan_file()
+    candidates = [item for item in plan_file.planned_modules if item.module_code == code]
+    if not candidates:
+        raise typer.BadParameter("Plan item was not found.")
+    item = max(candidates, key=lambda value: semester_key(value.target_semester))
+    item.target_semester = target
+    item.origin = "manual"
+    save_model(_study() / "plan.yaml", plan_file)
+    _out("Plan item moved.")
+
+
+@plan_app.command("remove")
+def plan_remove(code: str = typer.Option(..., "--code")) -> None:
+    """Remove a plan item selected by module code."""
+    plan_file = _plan_file()
+    before = len(plan_file.planned_modules)
+    plan_file.planned_modules = [
+        item for item in plan_file.planned_modules if item.module_code != code
+    ]
+    if len(plan_file.planned_modules) == before:
+        raise typer.BadParameter("Plan item was not found.")
+    save_model(_study() / "plan.yaml", plan_file)
+    _out("Plan item removed.")
+
+
+timetable_app = typer.Typer(no_args_is_help=True)
+app.add_typer(timetable_app, name="timetable")
+
+
+@timetable_app.command("import")
+def timetable_import(file: Path) -> None:
+    """Reserve timetable import for phase 4."""
+    _ = file
+    _out("Timetable import is not available yet.")
+
+
 @app.command()
 def excel(
     mode: str = typer.Option("current", "--mode"),
@@ -689,7 +841,16 @@ def excel(
         mode,
     )
     output = _study() / "output" / f"study_plan_{datetime.now().date().isoformat()}.xlsx"
-    export_workbook(output, program, store, result, _language(lang))
+    export_workbook(
+        output,
+        program,
+        store,
+        result,
+        _language(lang),
+        load_model(_study() / "plan.yaml", PlanFile),
+        student,
+        load_model(_study() / "checklist.yaml", ChecklistFile),
+    )
     _out(str(output))
 
 

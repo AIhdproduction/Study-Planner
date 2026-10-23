@@ -71,6 +71,8 @@ def test_excel_english_structure_and_full_validation_ranges(tmp_path: Path) -> N
         "Gaps",
         "Sources",
         "Open Issues",
+        "Study Plan",
+        "Semester Overview",
     ]
     sheet = workbook["My Credits"]
     assert sheet.tables["MyCredits"].ref == "A1:G1000" and sheet.freeze_panes == "A2"
@@ -101,6 +103,8 @@ def test_excel_german_localizes_sheets_headers_and_verdicts(tmp_path: Path) -> N
         "Lücken",
         "Quellen",
         "Offene Punkte",
+        "Studienplan",
+        "Semesterübersicht",
     ]
     overview = " ".join(
         str(cell.value) for row in workbook["Übersicht"].iter_rows() for cell in row if cell.value

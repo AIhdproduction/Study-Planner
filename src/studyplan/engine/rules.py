@@ -167,8 +167,12 @@ def _candidates(
             )
         )
     if mode == "forecast":
-        for item in sorted(plan.planned_modules, key=lambda value: value.module_code):
-            if item.module_code in passed or item.module_code not in modules:
+        for item in sorted(plan.planned_modules, key=lambda value: value.module_code or ""):
+            if (
+                item.status not in {"planned", "running", "retake"}
+                or item.module_code in passed
+                or item.module_code not in modules
+            ):
                 continue
             module = modules[item.module_code]
             reason = (
