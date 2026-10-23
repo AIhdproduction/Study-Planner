@@ -8,7 +8,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Annotated, Any
 from uuid import uuid4
 
 import typer
@@ -50,8 +50,14 @@ from studyplan.models import (
 from studyplan.models.core import Semester, University
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
-credits_app = typer.Typer(no_args_is_help=True)
-plan_app = typer.Typer(invoke_without_command=True, no_args_is_help=False)
+credits_app = typer.Typer(
+    no_args_is_help=True, help="Manage passed, failed, and recognized credits."
+)
+plan_app = typer.Typer(
+    invoke_without_command=True,
+    no_args_is_help=False,
+    help="Check and edit the saved semester plan.",
+)
 app.add_typer(credits_app, name="credits")
 app.add_typer(plan_app, name="plan")
 DISCLAIMER = (
@@ -66,9 +72,14 @@ console = Console(width=200)
 
 @app.callback()
 def configure(
-    study_dir: Path | None = typer.Option(None, "--study-dir"),  # noqa: B008
-    profiles_dir: Path | None = typer.Option(None, "--profiles-dir"),  # noqa: B008
-    lang: str | None = typer.Option(None, "--lang"),
+    study_dir: Annotated[
+        Path | None, typer.Option("--study-dir", help="Directory with study files.")
+    ] = None,
+    profiles_dir: Annotated[
+        Path | None,
+        typer.Option("--profiles-dir", help="Directory with university profiles."),
+    ] = None,
+    lang: Annotated[str | None, typer.Option("--lang", help="Output language: en or de.")] = None,
 ) -> None:
     """Configure the local study state and profile directories."""
     global LANGUAGE, PROFILES_DIR, STUDY_DIR
@@ -101,7 +112,9 @@ def _language(override: str | None = None) -> str:
     if override or LANGUAGE:
         return override or LANGUAGE or "en"
     profile = _study() / "profile.yaml"
-    return load_model(profile, StudentProfile).language if profile.exists() else "en"
+    if profile.exists():
+        return load_model(profile, StudentProfile).language
+    return os.environ.get("STUDYPLAN_LANG") or "en"
 
 
 def _student() -> StudentProfile:
@@ -158,7 +171,27 @@ def _plan_valid_code(program: Program, code: str) -> None:
 
 
 @app.command()
-def doctor(lang: str | None = typer.Option(None, "--lang")) -> None:
+def guide(
+    lang: Annotated[str | None, typer.Option("--lang", help="Language for the guide.")] = None,
+    output: Annotated[
+        Path | None, typer.Option("--output", help="Write the guide to this file.")
+    ] = None,
+) -> None:
+    """Print the complete student workflow so it can be copied."""
+    selected_lang = _language(lang)
+    text = message(selected_lang, "guide")
+    console.print(text)
+    if output:
+        output.parent.mkdir(parents=True, exist_ok=True)
+        output.write_text(f"{text}\n", encoding="utf-8-sig")
+        console.print(str(output))
+
+
+@app.command()
+def doctor(
+    lang: str | None = typer.Option(None, "--lang", help="Output language: en or de."),
+) -> None:
+    """Check the local folders required by Study Planner."""
     required = {"profiles": _profiles().root, "my_study": _study()}
     missing = [name for name, path in required.items() if not path.exists()]
     _out(
@@ -171,7 +204,10 @@ def doctor(lang: str | None = typer.Option(None, "--lang")) -> None:
 
 
 @app.command()
-def profiles(as_json: bool = typer.Option(False, "--json")) -> None:
+def profiles(
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
+) -> None:
+    """List the available universities and programs."""
     data: list[dict[str, Any]] = []
     for path in _profiles().root.glob("*/university.yaml"):
         university = load_model(path, University)
@@ -197,10 +233,11 @@ def profiles(as_json: bool = typer.Option(False, "--json")) -> None:
 
 @app.command()
 def modules(
-    search: str | None = None,
-    category: str | None = None,
-    as_json: bool = typer.Option(False, "--json"),
+    search: str | None = typer.Option(None, "--search", help="Find modules by code or title."),
+    category: str | None = typer.Option(None, "--category", help="Filter by category ID."),
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
 ) -> None:
+    """List modules in the selected program."""
     program = _program()
     selected = [
         module
@@ -214,14 +251,15 @@ def modules(
 
 @app.command()
 def init(
-    university: str = typer.Option(...),
-    program: str = typer.Option(...),
-    intake_year: int = typer.Option(...),
-    study_mode: str = typer.Option(...),
-    start_semester: str = typer.Option(...),
-    interruptions: list[str] | None = typer.Option(None),  # noqa: B008
-    lang: str = typer.Option("de"),
+    university: str = typer.Option(..., help="University profile ID."),
+    program: str = typer.Option(..., help="Program profile ID."),
+    intake_year: int = typer.Option(..., help="Year the student started."),
+    study_mode: str = typer.Option(..., help="Study mode from the program profile."),
+    start_semester: str = typer.Option(..., help="First semester, for example HS25."),
+    interruptions: list[str] | None = typer.Option(None, help="Interruption semesters."),  # noqa: B008
+    lang: str = typer.Option("de", help="Preferred output language: en or de."),
 ) -> None:
+    """Create a new study profile and empty state files."""
     profile_path = _study() / "profile.yaml"
     if profile_path.exists():
         raise typer.BadParameter("my_study/profile.yaml already exists; init never overwrites it.")
@@ -258,7 +296,13 @@ def init(
 
 
 @app.command()
-def validate(path: Path | None = None, as_json: bool = typer.Option(False, "--json")) -> None:
+def validate(
+    path: Annotated[
+        Path | None, typer.Option("--path", help="Validate only this YAML file.")
+    ] = None,
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
+) -> None:
+    """Validate study files and profile data."""
     paths = (
         [path] if path else list(_study().glob("*.yaml")) + list(_profiles().root.glob("**/*.yaml"))
     )
@@ -286,6 +330,7 @@ def validate(path: Path | None = None, as_json: bool = typer.Option(False, "--js
 
 @app.command()
 def schema() -> None:
+    """Export JSON Schemas for the supported data files."""
     destination = ROOT / "schemas"
     destination.mkdir(exist_ok=True)
     for model in [
@@ -308,9 +353,9 @@ def schema() -> None:
 
 @app.command()
 def check(
-    mode: str = typer.Option("current", "--mode"),
-    as_json: bool = typer.Option(False, "--json"),
-    lang: str | None = typer.Option(None, "--lang"),
+    mode: str = typer.Option("current", "--mode", help="Evaluation mode: current or forecast."),
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
+    lang: str | None = typer.Option(None, "--lang", help="Output language: en or de."),
 ) -> None:
     """Evaluate thesis admission and graduation requirements."""
     if mode not in {"current", "forecast"}:
@@ -402,18 +447,22 @@ def check(
 
 
 @credits_app.command("list")
-def credits_list(as_json: bool = typer.Option(False, "--json")) -> None:
+def credits_list(
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
+) -> None:
+    """List all saved credits and recognitions."""
     _out(_credits().model_dump(mode="json"), as_json)
 
 
 @credits_app.command("add")
 def credits_add(
-    code: str = typer.Option(...),
-    semester: str = typer.Option(...),
-    ects: int = typer.Option(...),
-    grade: str | None = typer.Option(None),
-    attempt: int = typer.Option(1),
+    code: str = typer.Option(..., help="Module code."),
+    semester: str = typer.Option(..., help="Semester, for example HS25."),
+    ects: int = typer.Option(..., help="ECTS value from the curriculum."),
+    grade: str | None = typer.Option(None, help="Grade A-F, pass, or fail."),
+    attempt: int = typer.Option(1, help="Attempt number for this module."),
 ) -> None:
+    """Add a passed or failed module attempt."""
     program, store = _program(), _credits()
     mapped = _resolve(program, _student().university_id, code)
     if not mapped:
@@ -438,7 +487,11 @@ def credits_add(
 
 
 @credits_app.command("remove")
-def credits_remove(code: str = typer.Option(...), attempt: int = typer.Option(...)) -> None:
+def credits_remove(
+    code: str = typer.Option(..., help="Module code."),
+    attempt: int = typer.Option(..., help="Attempt number to remove."),
+) -> None:
+    """Remove one saved module attempt."""
     store = _credits()
     remaining = [
         item for item in store.credits if not (item.module_code == code and item.attempt == attempt)
@@ -452,12 +505,13 @@ def credits_remove(code: str = typer.Option(...), attempt: int = typer.Option(..
 
 @credits_app.command("edit")
 def credits_edit(
-    code: str = typer.Option(...),
-    attempt: int = typer.Option(...),
-    semester: str | None = None,
-    ects: int | None = None,
-    grade: str | None = None,
+    code: str = typer.Option(..., help="Module code."),
+    attempt: int = typer.Option(..., help="Attempt number to edit."),
+    semester: str | None = typer.Option(None, help="Replacement semester."),
+    ects: int | None = typer.Option(None, help="Replacement ECTS value."),
+    grade: str | None = typer.Option(None, help="Replacement grade."),
 ) -> None:
+    """Edit one saved module attempt."""
     store, program = _credits(), _program()
     index = next(
         (
@@ -487,7 +541,9 @@ def credits_edit(
     _out(message(_language(), "credit_updated"))
 
 
-recognize_app = typer.Typer(no_args_is_help=True)
+recognize_app = typer.Typer(
+    no_args_is_help=True, help="Manage credits recognized from earlier education."
+)
 credits_app.add_typer(recognize_app, name="recognize")
 
 
@@ -504,16 +560,17 @@ def _recognized_valid(program: Program, item: RecognizedCredit, store: CreditsFi
 
 @recognize_app.command("add")
 def recognized_add(
-    ects: int = typer.Option(...),
-    basis: str = typer.Option(...),
-    document: str = typer.Option(...),
-    category: str | None = typer.Option(None),
-    no_category: bool = typer.Option(False, "--no-category"),
-    module_code: str | None = typer.Option(None),
-    date: str | None = typer.Option(None),
-    status: str = typer.Option("confirmed"),
-    open_issue: str | None = typer.Option(None),
+    ects: int = typer.Option(..., help="Recognized ECTS."),
+    basis: str = typer.Option(..., help="Basis for the recognition."),
+    document: str = typer.Option(..., help="Recognition decision document name."),
+    category: str | None = typer.Option(None, help="Category ID for a lump-sum recognition."),
+    no_category: bool = typer.Option(False, "--no-category", help="Record no category assignment."),
+    module_code: str | None = typer.Option(None, help="Curriculum module code, if recognized."),
+    date: str | None = typer.Option(None, help="Decision date in YYYY-MM-DD."),
+    status: str = typer.Option("confirmed", help="Recognition status: confirmed or provisional."),
+    open_issue: str | None = typer.Option(None, help="Reason the recognition remains open."),
 ) -> None:
+    """Add a recognized credit from earlier education."""
     if no_category and category:
         raise typer.BadParameter("Use either --category or --no-category, not both.")
     if status not in {"confirmed", "provisional"}:
@@ -543,12 +600,16 @@ def recognized_add(
 
 
 @recognize_app.command("list")
-def recognized_list(as_json: bool = typer.Option(False, "--json")) -> None:
+def recognized_list(
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
+) -> None:
+    """List all recognized credits."""
     _out([item.model_dump(mode="json") for item in _credits().recognized_credits], as_json)
 
 
 @recognize_app.command("remove")
-def recognized_remove(id: str = typer.Option(...)) -> None:
+def recognized_remove(id: str = typer.Option(..., help="Recognized credit ID.")) -> None:
+    """Remove one recognized credit."""
     store = _credits()
     recognized = [item for item in store.recognized_credits if item.id != id]
     if len(recognized) == len(store.recognized_credits):
@@ -568,8 +629,11 @@ def _text_after(node: Any, label: str) -> str | None:
 
 @credits_app.command("import-mycampus")
 def import_mycampus(
-    file: Path, apply: bool = typer.Option(False), as_json: bool = typer.Option(False, "--json")
+    file: Annotated[Path, typer.Argument(help="Saved MyCampus Meine Anmeldungen HTML file.")],
+    apply: bool = typer.Option(False, help="Save new parsed entries instead of a dry run."),
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
 ) -> None:
+    """Import a saved MyCampus page locally, without a network connection."""
     if not file.exists():
         raise typer.BadParameter(f"File not found: {file}")
     document = LexborHTMLParser(file.read_text(encoding="utf-8", errors="replace"))
@@ -687,7 +751,7 @@ def import_mycampus(
 @plan_app.callback()
 def plan(
     ctx: typer.Context,
-    as_json: bool = typer.Option(False, "--json"),
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
 ) -> None:
     """Check the saved semester plan."""
     if ctx.invoked_subcommand is not None:
@@ -728,9 +792,11 @@ def plan(
 
 @plan_app.command("generate")
 def plan_generate(
-    current: str | None = typer.Option(None, "--current-semester"),
-    force: bool = typer.Option(False, "--force"),
-    as_json: bool = typer.Option(False, "--json"),
+    current: str | None = typer.Option(
+        None, "--current-semester", help="Current semester, for example HS25."
+    ),
+    force: bool = typer.Option(False, "--force", help="Replace generated plan items."),
+    as_json: bool = typer.Option(False, "--json", help="Print machine-readable JSON."),
 ) -> None:
     """Generate a deterministic first-semester plan from credits and the model timetable."""
     now = Semester(current) if current else current_semester()
@@ -755,10 +821,10 @@ def plan_generate(
 
 @plan_app.command("add")
 def plan_add(
-    code: str = typer.Option(..., "--code"),
-    semester: str = typer.Option(..., "--semester"),
-    status: str = typer.Option("planned", "--status"),
-    note: str | None = typer.Option(None, "--note"),
+    code: str = typer.Option(..., "--code", help="Module code."),
+    semester: str = typer.Option(..., "--semester", help="Target semester."),
+    status: str = typer.Option("planned", "--status", help="Status: planned, running, or retake."),
+    note: str | None = typer.Option(None, "--note", help="Optional note for this item."),
 ) -> None:
     """Add a manually controlled plan item."""
     if status not in {"planned", "running", "retake"}:
@@ -782,8 +848,8 @@ def plan_add(
 
 @plan_app.command("move")
 def plan_move(
-    code: str = typer.Option(..., "--code"),
-    semester: str = typer.Option(..., "--semester"),
+    code: str = typer.Option(..., "--code", help="Module code."),
+    semester: str = typer.Option(..., "--semester", help="New target semester."),
 ) -> None:
     """Move a module and mark the choice as manual."""
     target = Semester(semester)
@@ -799,7 +865,7 @@ def plan_move(
 
 
 @plan_app.command("remove")
-def plan_remove(code: str = typer.Option(..., "--code")) -> None:
+def plan_remove(code: str = typer.Option(..., "--code", help="Module code.")) -> None:
     """Remove a plan item selected by module code."""
     plan_file = _plan_file()
     before = len(plan_file.planned_modules)
@@ -812,12 +878,14 @@ def plan_remove(code: str = typer.Option(..., "--code")) -> None:
     _out("Plan item removed.")
 
 
-timetable_app = typer.Typer(no_args_is_help=True)
+timetable_app = typer.Typer(no_args_is_help=True, help="Reserve timetable functions for phase 4.")
 app.add_typer(timetable_app, name="timetable")
 
 
 @timetable_app.command("import")
-def timetable_import(file: Path) -> None:
+def timetable_import(
+    file: Annotated[Path, typer.Argument(help="Timetable file to import.")],
+) -> None:
     """Reserve timetable import for phase 4."""
     _ = file
     _out("Timetable import is not available yet.")
@@ -825,8 +893,8 @@ def timetable_import(file: Path) -> None:
 
 @app.command()
 def excel(
-    mode: str = typer.Option("current", "--mode"),
-    lang: str | None = typer.Option(None, "--lang"),
+    mode: str = typer.Option("current", "--mode", help="Evaluation mode: current or forecast."),
+    lang: str | None = typer.Option(None, "--lang", help="Workbook language: en or de."),
 ) -> None:
     """Export the selected engine view as a reviewable Excel workbook."""
     if mode not in {"current", "forecast"}:
@@ -879,7 +947,10 @@ def backup() -> None:
 
 
 @app.command()
-def restore(file: Path, force: bool = typer.Option(False, "--force")) -> None:
+def restore(
+    file: Path,
+    force: bool = typer.Option(False, "--force", help="Allow replacement of existing state files."),
+) -> None:
     """Restore a validated backup without silently replacing existing state."""
     if not file.exists():
         raise typer.BadParameter(f"File not found: {file}")

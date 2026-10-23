@@ -1,215 +1,247 @@
+[Deutsch](README.de.md)
+
 # Study Planner
 
-Study Planner is an open source tool that helps students check bachelor thesis admission and graduation requirements, plan remaining semesters and timetables, and create an Excel workbook. Students clone the repository and work with it through Claude Code. The first profile targets HSLU Technik & Architektur, Digital Construction, specialization Architecture, intake 2025.
+Study Planner helps you check bachelor thesis admission and graduation requirements, plan your remaining semesters, and create an Excel workbook. You work locally in a cloned repository with Claude Code; the planner calculates results from versioned YAML data.
 
-## Disclaimer
+> Not legally binding. The official study regulations and the program management decide.
 
-Not legally binding. The official study regulations and the program management decide.
+## What it does
+
+- Checks thesis admission and graduation requirements from the selected regulation profile.
+- Allocates each passed module to at most one category, even when it qualifies for several.
+- Imports a saved MyCampus “Meine Anmeldungen” page locally.
+- Records recognized credits from earlier education, including provisional decisions.
+- Builds a semester plan with retakes, offering terms, deadlines, and the Basic-to-Advanced level gate.
+- Creates a reviewable Excel workbook with the results and source references.
+- Keeps study data in local, human-readable files; there is no web application or database.
 
 ## Status
 
-Phases 1 and 1b are done. The working slash commands are `/setup`, `/credits` (including the local MyCampus import), `/check`, `/plan`, and `/excel`. The remaining commands become available with their respective phases.
-
 | Phase | Scope | Status |
 |---|---|---|
-| 1 | Data model, rule engine, CLI, and Excel export | done |
-| 1b | Semester plan generator, conditions, and Excel plan sheets | done |
-| 2 | Document import through Claude Code | planned |
-| 3 | Public program-data fetch and change reporting | planned |
-| 4 | Semester planning and timetable support | planned |
+| 1 | Study data, rule engine, CLI, and Excel export | Done |
+| 1b | Semester-plan generator and plan sheets | Done |
+| 2 | Document import, redaction, drafts, and consent workflow | Planned |
+| 3 | Public-document fetch and change reporting | Planned |
+| 4 | Timetable import, conflicts, and suggestions | Planned |
 
-## Prerequisites
+The slash commands that work today are `/setup`, `/credits`, `/check`, `/plan`, and `/excel`. `/missing` and `/import` need phase 2; `/update` needs phase 3; timetable import and suggestions need phase 4.
 
-- Windows
+## Supported programs
+
+The included profile covers HSLU Technik & Architektur, Bachelor Digital Construction, specialization Architecture, intake 2025, with a part-time model timetable. Profile facts are marked `unverified` until they have been checked against the official documents, so results can be provisional. To add another university or program, see [For contributors](#for-contributors).
+
+## Requirements
+
+- Windows 10 or 11
+- [Git](https://git-scm.com/)
 - [uv](https://docs.astral.sh/uv/)
-- [Claude Code](https://code.claude.com/docs)
-- git
-- Optional: LibreOffice for the Excel parity test
+- [Claude Code](https://code.claude.com/docs) and a Claude account
+- Optional: LibreOffice, only for a developer Excel-parity test
 
 ## Quick start
 
-1. Clone the repository:
+1. Clone the repository.
 
-   ~~~powershell
-   git clone REPOSITORY-URL
-   ~~~
+   ```powershell
+   git clone https://github.com/AIhdproduction/Study-Planner.git
+   ```
 
-2. Open the cloned folder.
-3. Run `start.bat`. It checks for uv and Claude Code, runs `uv sync` and `uv run studyplan doctor`, then starts Claude Code.
-4. In Claude Code, type `/setup`.
+2. Open the new `Study-Planner` folder in Explorer.
+3. Double-click `start.bat`. It checks `uv` and Claude Code, synchronizes dependencies, and checks the local setup.
+4. Use the menu.
 
-## Using phase 1
+   | Key | Action |
+   |---|---|
+   | `1` | Open the inbox folder for your documents. |
+   | `2` | Create and open the workflow guide in Notepad. |
+   | `3` | Start Claude Code in this repository. |
+   | `4` | Open the output folder for Excel workbooks. |
+   | `5` | Create an Excel workbook now, after setup. |
+   | `Q` | Quit the menu. |
 
-All values below are invented examples. Replace paths and values with your own study data.
+5. In Claude Code, type `/setup` and answer its questions.
+6. `start.bat` uses German by default. To switch permanently, run `setx STUDYPLAN_LANG en` once; new windows use the setting. Alternatively, change the line `set "STUDYPLAN_LANG=de"` in `start.bat`. After `/setup`, the CLI uses the language stored in the study profile.
 
-```powershell
-uv run studyplan init --university hslu_ta --program digital_construction_architecture_2025 --intake-year 2025 --study-mode part_time --start-semester HS25
-uv run studyplan credits import-mycampus "my_study/inbox/transcript/example.html"
-uv run studyplan credits add --code TA.BA_NABA --semester HS25 --ects 3 --grade B
-uv run studyplan credits recognize add --ects 3 --basis "Example prior study" --category related --document "example-decision.pdf" --status confirmed
-uv run studyplan check --mode current
-uv run studyplan excel --mode current
-uv run studyplan backup
+## Step 1: collect your documents
+
+| Document | Where to get it | How to save it | Folder |
+|---|---|---|---|
+| Study regulation | Your university’s public website | Save the original PDF. | `my_study/inbox/regulations/` |
+| Curriculum for your intake year | Your university’s public website | Save the original PDF. | `my_study/inbox/regulations/` |
+| Model timetable | Your program’s public website, if available | Save the original PDF. | `my_study/inbox/timetable/` |
+| MyCampus “Meine Anmeldungen” | Log in yourself and open the page | Remove the semester filter, then use `Ctrl+S` and choose “Webpage, complete”. | `my_study/inbox/transcript/` |
+| Transcript of records | Download it yourself from the student portal | Save the original PDF. | `my_study/inbox/transcript/` |
+| Recognition decision | The decision issued by your university | Save the original PDF. | `my_study/inbox/recognition/` |
+| Module descriptions, including the thesis module | Open each module’s detail page yourself | Expand all sections, then use `Ctrl+P` and save as PDF, or use `Ctrl+S` for a complete webpage. | `my_study/inbox/modules/` |
+
+- Log in to portals yourself. File names do not matter.
+- Never share a password with Claude Code or put one into this repository.
+- Study Planner does not upload `my_study/` and Git ignores it. Claude Code document reading is a separate, consent-based phase-2 feature; see [Privacy and security](#privacy-and-security).
+
+```text
+my_study/
+  profile.yaml
+  credits.yaml
+  plan.yaml
+  checklist.yaml
+  inbox/
+    regulations/
+    modules/
+    transcript/
+    recognition/
+    timetable/
+  imports/
+  output/
+  logs/
+  backups/
 ```
 
-## Study plan
+## Step 2: work with Claude Code
 
-All values below are invented examples. Generate a first plan from your saved credits and the published model timetable, review its checks, then adjust individual modules if needed.
-
-```powershell
-uv run studyplan plan generate --current-semester HS29
-uv run studyplan plan --json
-uv run studyplan plan move --code SYN.EXAMPLE --semester FS30
-uv run studyplan excel --mode forecast
-```
-
-`plan generate` preserves manual choices. The Excel workbook includes the Study Plan and Semester Overview sheets with planned ECTS, conditions, status colors, and the earliest thesis-admission semester. Timetable-slot imports remain unavailable until phase 4.
-
-## What to tell Claude Code
-
-Use the commands in this order. The examples are ordinary sentences you can type after the slash command.
-
-1. Run `start.bat`, then type `/setup`.
-   Example: `/setup I study Digital Construction, started in 2025, full time.`
-2. Type `/credits` to enter modules or import the saved MyCampus page locally.
-   Example: `/credits import my MyCampus page.`
-3. Once phase 2 is available, type `/missing` to learn which module descriptions to save.
-   Example: `/missing show the module descriptions I still need.`
-4. Type `/check` to see your current status or a forecast.
-   Example: `/check forecast.`
-5. Type `/excel` to create your workbook.
-   Example: `/excel create my study plan workbook.`
-6. Once phase 2 is available, use `/import` after saving documents; once phase 4 is available, use `/plan` for your remaining semesters.
-   Examples: `/import read my saved module descriptions.` and `/plan move my remaining modules into future semesters.`
-
-In phase 1, use `/setup`, `/credits`, `/check`, and `/excel`; `/missing`, `/import`, and `/plan` are not available until their stated phases.
-
-## Workflow
-
-| Step | Command | What happens |
+| Command | What it does | Example you can type |
 |---|---|---|
-| 1 | `/setup` | Choose university, program, intake year and study mode. Creates `my_study/profile.yaml`. |
-| 2 | `/credits` | Import the saved MyCampus page locally, or add and correct passed, failed, and recognized modules. |
-| 3 | `/missing` | Shows which module descriptions the student must save from the portal. Available in phase 2. |
-| 4 | `/import` | Reads documents from `my_study/inbox/` after consent and creates drafts the student confirms. Available in phase 2. |
-| 5 | `/check` | Thesis admission and graduation check with gap list. |
-| 6 | `/plan` | Plan the remaining semesters and the timetable, find conflicts. Available in phase 4. |
-| 7 | `/excel` | Write the Excel workbook to `my_study/output/`. |
-| any | `/update` | Fetch the latest public documents of the program. Available in phase 3. |
+| `/setup` | Selects the university, program, intake, study mode, and language. | `/setup I started Digital Construction in 2025 and study part time.` |
+| `/credits` | Imports your saved MyCampus page locally or records passed, failed, and recognized credits. | `/credits Import my saved MyCampus page.` |
+| `/check` | Shows the current result or a forecast with gaps. | `/check Show a forecast for my current plan.` |
+| `/plan` | Generates and adjusts the remaining-semester plan. | `/plan Generate my first plan and show the warnings.` |
+| `/excel` | Writes the Excel workbook. | `/excel Create my workbook in German.` |
+| `/missing` | Lists module pages still needed. Available in phase 2. | `/missing Which module descriptions do I still need?` |
+| `/import` | Creates reviewable import drafts after consent. Available in phase 2. | `/import Process the module pages I approved.` |
+| `/update` | Fetches approved public-source updates. Available in phase 3. | `/update Check for public program updates.` |
 
-## What to collect and where to put it
+Recommended order: `/setup`, `/credits`, `/check`, `/plan`, `/check forecast`, `/excel`. Add `/missing` and `/import` when phase 2 is available.
 
-Collect the following documents before asking Claude Code to work with them.
+```text
+You: /setup I started in 2025, study part time, and prefer English.
+Claude Code: I will list the available profiles and create your local study profile.
 
-1. **Study regulation of your school**
-   - What it is: the official study regulation that defines the rules for your degree.
-   - Where to get it: download the public PDF from your university website.
-   - How to save it: save the original PDF without changing it.
-   - Target folder: `my_study/inbox/regulations/`
-2. **Curriculum of your program and intake year**
-   - What it is: the official curriculum for the program and year in which you started.
-   - Where to get it: download the public PDF from your university website.
-   - How to save it: save the original PDF without changing it.
-   - Target folder: `my_study/inbox/regulations/`
-3. **Model timetable of your program and study mode**
-   - What it is: the published recommended semester sequence, if your university provides one.
-   - Where to get it: download the public PDF from your university website.
-   - How to save it: save the original PDF without changing it.
-   - Target folder: `my_study/inbox/timetable/`
-4. **MyCampus page "Meine Anmeldungen"**
-   - What it is: your registration overview, including all semesters.
-   - Where to get it: log in yourself in your own browser and open "Meine Anmeldungen".
-   - How to save it: remove the semester filter so that all semesters are shown, press `Ctrl+S`, and choose "Webpage, complete". Put the resulting `.html` file in the target folder. The extra `_files` folder may stay next to it or be deleted.
-   - Target folder: `my_study/inbox/transcript/`
-   - It is parsed locally with `uv run studyplan credits import-mycampus`; Claude Code never reads it directly.
-5. **Official transcript of records**
-   - What it is: your official record of completed assessments, if you have one.
-   - Where to get it: download the PDF from your university portal yourself.
-   - How to save it: save the original PDF without changing it.
-   - Target folder: `my_study/inbox/transcript/`
-6. **Recognition decisions for earlier education**
-   - What it is: decisions that recognize credits from earlier education, for example a "Modulerlassung" form.
-   - Where to get it: use the PDF issued by your school.
-   - How to save it: save the original PDF without changing it.
-   - Target folder: `my_study/inbox/recognition/`
-7. **Module descriptions from the login-protected module directory**
-   - What it is: the detailed page for every module that `/missing` lists, and at least the bachelor thesis module. The thesis module contains the program-specific thesis admission requirements.
-   - Where to get it: log in yourself in your own browser and open the module detail page, not the result list.
-   - How to save it: expand all collapsed sections, press `Ctrl+P`, and choose "Save as PDF". As an alternative, press `Ctrl+S` and choose "Webpage, complete". Save one file per module.
-   - Target folder: `my_study/inbox/modules/`
+You: /credits Import my saved MyCampus page.
+Claude Code: I will first show a local dry run, then apply it only after you confirm.
 
-- File names do not matter.
-- Never rename codes that appear in documents.
-- Never put files from other students in your folder.
-- Nothing in `my_study/` is uploaded to GitHub.
+You: /check Show a forecast.
+Claude Code: I will run the rule engine and explain its gaps and provisional items.
+```
 
-~~~text
-my_study/
-  inbox/regulations/   study regulation, curriculum (PDF)
-  inbox/modules/       module descriptions saved from the portal (Ctrl+S complete page, or Ctrl+P as PDF)
-  inbox/transcript/    MyCampus "Meine Anmeldungen" page (Ctrl+S) and official transcript of records (PDF)
-  inbox/recognition/   recognition decisions for external credits (PDF)
-  inbox/timetable/     timetables (PDF, ICS, CSV, XLSX)
-  output/              generated Excel workbooks
-~~~
+The values in this example are invented.
 
-## Privacy
+## Step 3: your Excel workbook
 
-- `my_study/` is never committed: it is gitignored, apart from the empty folder skeleton.
-- The planner never requests, stores, or transmits passwords; it never logs in or accesses pages behind a login, including the module directory and ILIAS.
-- Claude Code asks for consent for each file before reading it, because reading sends its content to Anthropic.
-- Transcripts and recognition decisions are read only in redacted form.
-- `.claude/settings.json` denies direct reads from `my_study/inbox/transcript/` and `my_study/inbox/recognition/`.
+| Sheet | Purpose |
+|---|---|
+| Overview | Overall result, goals, and key totals from the rule engine. |
+| Rules | Every checked rule with current value, target, status, and source. |
+| Modules | The curriculum modules and their categories. |
+| My Credits | Passed and failed attempts, recognized credits, and simple Excel sums. |
+| Allocation | The category assigned to every counted credit. |
+| Gaps | Requirements that are still open. |
+| Sources | Source-document and page references for rules. |
+| Open Issues | Provisional and manual items needing review. |
+| Study Plan | Planned modules, conditions, statuses, and source data. |
+| Semester Overview | Semester totals, cumulative ECTS, violations, and earliest thesis admission. |
 
-## Repository structure
+On the Study Plan sheet, passed rows are green, running rows blue, planned rows white, failed rows red, retakes orange, and elective placeholders yellow. Excel edits are not read back: correct credits and plan entries through Claude Code and the CLI, then create a new workbook.
 
-~~~text
-start.bat
-pyproject.toml
-uv.lock
-AGENTS.md
-CLAUDE.md
-.claude/
-  settings.json
-  commands/
-src/studyplan/
-  cli.py
-  engine/
-  models/
-  io/
-  importers/
-  exporters/
-  fetch/
-  i18n/
-schemas/
-profiles/
-my_study/
-sources/
-prompts/
-tests/
-  fixtures/real/
-  fixtures/synthetic/
-  fixtures/golden_template.yaml
-~~~
+## How the checks work
 
-## Contributing / adding a university
+Rules and their source-document/page references come from the selected study-regulation profile. The included HSLU profile implements:
 
-Start from `profiles/_template/`. A university profile uses `profiles/your-university/university.yaml`, a `programs/` directory, and `code_mapping.yaml`.
+- 180 ECTS for graduation and 132 ECTS plus the program-specific manual requirement for thesis admission.
+- Category minima: 90 Core, 39 Core-Project, 15 Related, and 15 Minor ECTS.
+- All mandatory Core and Core-Project modules passed.
+- At most three attempts, with a shared 12-ECTS third-attempt budget; the thesis has no third attempt.
+- Advanced modules only after all mandatory Basic modules, and mandatory Basic modules within six completed semesters.
+- At least 60 ECTS acquired at HSLU, recognition caps for an HF diploma and applicable professional practice, and a 12-semester maximum duration.
 
-Developers must read `AGENTS.md` first and implement one phase prompt at a time. `ruff` and `pytest` must pass.
+`eligible` means the automated rules for that goal are fulfilled. `not eligible` means at least one automated requirement is open. `provisional` means an outcome depends on unverified profile data or a provisional recognition; `manual` marks a requirement that needs your confirmation. Results remain provisional until the profile data is verified against the official documents. For modules that fit several categories, the rule engine uses OR-Tools CP-SAT to choose one allocation per module that satisfies the rules as well as possible.
 
-## Kurzanleitung (Deutsch)
+## Privacy and security
 
-1. Besorge Studienreglement und Curriculum für deinen Studiengang und Eintrittsjahrgang als öffentliche PDFs und speichere sie in `my_study/inbox/regulations/`.
-2. Speichere den Modellstundenplan, falls vorhanden, als öffentliches PDF in `my_study/inbox/timetable/`.
-3. Melde dich selbst in MyCampus an, öffne "Meine Anmeldungen", entferne den Semesterfilter, speichere mit `Strg+S` als "Webseite, vollständig" und lege die `.html`-Datei in `my_study/inbox/transcript/` ab. Der `_files`-Ordner ist optional.
-4. Lege dein offizielles Transcript als PDF in `my_study/inbox/transcript/` und Anerkennungsentscheide als PDF in `my_study/inbox/recognition/` ab.
-5. Für jedes von `/missing` genannte Modul und mindestens für das Bachelorarbeitsmodul: Detailseite selbst öffnen, alle Bereiche aufklappen, mit `Strg+P` „Als PDF speichern“ auswählen und je eine Datei in `my_study/inbox/modules/` ablegen.
-6. Dateinamen sind egal. Modulcodes nie umbenennen, keine Dateien anderer Studierender ablegen und nichts aus `my_study/` zu GitHub hochladen.
-7. Starte `start.bat`, dann verwende `/setup`, `/credits`, `/missing`, `/check` und `/excel` in dieser Reihenfolge.
-8. Beispiele: `/setup Ich habe 2025 angefangen.`, `/credits Importiere meine MyCampus-Seite.`, `/missing Zeig mir die fehlenden Module.`, `/check Prognose.`, `/excel Erstelle meine Arbeitsmappe.`
-9. `/missing` und `/import` stehen ab Phase 2 bereit; `/plan` für die Semesterplanung ab Phase 4. In Phase 1 funktionieren `/setup`, `/credits`, `/check` und `/excel`.
+- The planner stores data locally in `my_study/`; this folder is gitignored.
+- In phase 2, Claude Code asks for consent before reading each document. Reading sends document content to Anthropic.
+- In phase 2, transcripts and recognition decisions are redacted before Claude Code reads their text.
+- `.claude/settings.json` denies direct reads of transcript and recognition inbox folders.
+- The planner never asks for, stores, or uses passwords and never logs in to a website.
+- Public fetching is planned for phase 3 and will respect robots.txt, source allowlists, and manual-source restrictions.
+
+## FAQ and troubleshooting
+
+**`uv` was not found.** Install [uv](https://docs.astral.sh/uv/), close and reopen the terminal, then run `start.bat` again.
+
+**`claude` was not found.** Install Claude Code from [its documentation](https://code.claude.com/docs), sign in to your Claude account, and run `start.bat` again.
+
+**`start.bat` closes immediately.** Start it from PowerShell in the repository folder so that the message remains visible: `.\\start.bat`. Check that `uv` and `claude` are on `PATH`.
+
+**MyCampus import reports `unmapped`.** The saved code does not exactly match a curriculum code or an explicit mapping. Do not guess; record it only after a contributor has added and verified an entry in `profiles/hslu_ta/code_mapping.yaml`.
+
+**My result is `provisional`.** Read the listed reasons. Common reasons are unverified profile facts, an unverified code mapping, a provisional recognition, or a manual thesis requirement.
+
+**Excel shows a warning when opening.** This should not happen. Do not accept a repair silently; keep the original file and report the warning with the command you ran at [GitHub Issues](https://github.com/AIhdproduction/Study-Planner/issues). Do not include personal data or files from `my_study/`.
+
+**How do I start over?** Run `uv run studyplan backup` first. Then manually delete or rename the YAML files in `my_study/`; `init` never overwrites an existing profile.
+
+**How do I update?** In the repository folder, run `git pull`, then double-click `start.bat` so `uv sync` can update the environment.
+
+**Where do I report a bug or suggest a program?** Open an issue at [GitHub Issues](https://github.com/AIhdproduction/Study-Planner/issues). Do not include personal data or files from `my_study/`.
+
+## For contributors
+
+```text
+start.bat                  Windows launcher
+src/studyplan/             CLI, rule engine, models, YAML I/O, Excel export, translations
+profiles/                  University, program, and code-mapping profiles
+schemas/                   Exported JSON Schemas
+my_study/                  Local student state; ignored by Git
+.claude/commands/          Student-facing Claude Code workflow
+prompts/                   Phase-specific implementation scope
+scripts/                   Maintainer utilities, including model-timetable extraction
+tests/fixtures/synthetic/  Committed invented test data
+tests/fixtures/real/       Private, ignored maintainer fixtures
+```
+
+### CLI reference
+
+| Command | Description |
+|---|---|
+| `studyplan guide` | Print the student workflow and optionally write it to a file. |
+| `studyplan doctor` | Check required local folders. |
+| `studyplan profiles` | List available universities and programs. |
+| `studyplan modules` | List modules in the selected program. |
+| `studyplan init` | Create a study profile and empty state files. |
+| `studyplan validate` | Validate study files and profile data. |
+| `studyplan schema` | Export JSON Schemas. |
+| `studyplan check` | Evaluate thesis admission and graduation requirements. |
+| `studyplan credits` | Manage passed, failed, and recognized credits. |
+| `studyplan credits list` | List saved credits and recognitions. |
+| `studyplan credits add`, `edit`, `remove` | Add, change, or remove a module attempt. |
+| `studyplan credits import-mycampus` | Locally parse a saved MyCampus page; dry run by default. |
+| `studyplan credits recognize` | Manage recognized credits from earlier education. |
+| `studyplan credits recognize add`, `list`, `remove` | Add, list, or remove a recognition. |
+| `studyplan plan` | Check the saved semester plan. |
+| `studyplan plan generate` | Generate a deterministic first plan. |
+| `studyplan plan add`, `move`, `remove` | Manually edit plan items. |
+| `studyplan timetable` | Reserve timetable functions for phase 4. |
+| `studyplan timetable import` | Report that timetable import is not available yet. |
+| `studyplan excel` | Export a reviewable Excel workbook. |
+| `studyplan backup` | Write a portable JSON snapshot. |
+| `studyplan restore` | Restore a validated backup. |
+
+Use these development commands.
+
+```powershell
+uv sync
+uv run ruff check
+uv run ruff format --check
+uv run pytest
+```
+
+`@pytest.mark.real` tests use private fixtures and skip cleanly when they are unavailable. `@pytest.mark.agent` is registered in `pyproject.toml` for optional tests that call an AI agent; run them explicitly with `uv run pytest -m agent`. No agent tests are currently part of the default run.
+
+To add a university or program, start with `profiles/_template/`. Put the university rules in `university.yaml`, program curriculum in `programs/`, and explicit source-code stems in `code_mapping.yaml`. Mapping entries name their source (`mycampus`, `timetable`, or `module_directory`) and never rely on title-only matching. Use `scripts/extract_model_timetable.py` for the model-timetable extraction workflow. Follow `AGENTS.md`, implement only the requested phase in `prompts/`, and keep `tests/fixtures/real/` private and gitignored.
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
+
+Not legally binding. The official study regulations and the program management decide.

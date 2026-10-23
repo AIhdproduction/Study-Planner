@@ -66,6 +66,32 @@ MESSAGES: dict[str, dict[str, str]] = {
         "recognition_removed": "Recognized credit removed.",
         "backup_created": "Backup created.",
         "restored": "Backup restored.",
+        "guide": (
+            "1. Files to collect and where to put them:\n"
+            "- Study regulation and curriculum PDF -> my_study\\inbox\\regulations\n"
+            "- Model timetable PDF -> my_study\\inbox\\timetable\n"
+            '- MyCampus "Meine Anmeldungen": log in yourself, remove the semester filter, '
+            'Ctrl+S "Webpage, complete" -> my_study\\inbox\\transcript\n'
+            "- Transcript PDF -> my_study\\inbox\\transcript\n"
+            "- Recognition decisions PDF -> my_study\\inbox\\recognition\n"
+            "- Module descriptions: open the detail page, expand all sections, "
+            'Ctrl+P "Save as PDF" -> my_study\\inbox\\modules (at least the bachelor thesis '
+            "module)\n"
+            "Never enter passwords into Claude Code; nothing in my_study is uploaded.\n\n"
+            "2. Commands to type in Claude Code:\n"
+            "/setup Digital Construction Architecture, start 2025, part time, HS25\n"
+            "/credits import my MyCampus page\n"
+            "/credits add my recognition decision\n"
+            "/check forecast\n"
+            "/plan\n"
+            "/excel\n"
+            "/missing (available from phase 2)\n\n"
+            "3. Where the result is:\n"
+            "my_study\\output\\study_plan_<date>.xlsx with the sheets Overview, Study Plan, "
+            "Semester Overview.\n\n"
+            "Not legally binding. The official study regulations and the program management "
+            "decide."
+        ),
     },
     "de": {
         "overview": "Übersicht",
@@ -133,6 +159,32 @@ MESSAGES: dict[str, dict[str, str]] = {
         "recognition_removed": "Anerkennung entfernt.",
         "backup_created": "Sicherung erstellt.",
         "restored": "Sicherung wiederhergestellt.",
+        "guide": (
+            "1. Dateien sammeln und ablegen:\n"
+            "- Studienreglement und Curriculum PDF -> my_study\\inbox\\regulations\n"
+            "- Modellstundenplan PDF -> my_study\\inbox\\timetable\n"
+            '- MyCampus "Meine Anmeldungen": selbst anmelden, Semesterfilter entfernen, '
+            'Strg+S "Webseite, vollständig" -> my_study\\inbox\\transcript\n'
+            "- Transcript PDF -> my_study\\inbox\\transcript\n"
+            "- Anerkennungsentscheide PDF -> my_study\\inbox\\recognition\n"
+            "- Modulbeschreibungen: Detailseite öffnen, alle Bereiche aufklappen, "
+            'Strg+P "Als PDF speichern" -> my_study\\inbox\\modules (mindestens das '
+            "Bachelorarbeitsmodul)\n"
+            "Niemals Passwörter in Claude Code eingeben; nichts in my_study wird hochgeladen.\n\n"
+            "2. Befehle für Claude Code:\n"
+            "/setup Digital Construction Architecture, Start 2025, Teilzeit, HS25\n"
+            "/credits Importiere meine MyCampus-Seite\n"
+            "/credits Erfasse meine Modulerlassung\n"
+            "/check Prognose\n"
+            "/plan Erstelle meinen Studienplan\n"
+            "/excel Erstelle meine Excel-Liste\n"
+            "/missing (verfügbar ab Phase 2)\n\n"
+            "3. Wo das Ergebnis liegt:\n"
+            "my_study\\output\\study_plan_<date>.xlsx mit den Tabellenblättern Übersicht, "
+            "Studienplan, Semesterübersicht.\n\n"
+            "Nicht rechtsverbindlich. Es gelten das offizielle Studienreglement und die "
+            "Entscheide der Studiengangleitung."
+        ),
     },
 }
 
