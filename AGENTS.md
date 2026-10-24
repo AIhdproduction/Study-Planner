@@ -48,6 +48,8 @@ The work is split into four phases plus phase 1b (study plan, pulled forward fro
 | Subcommand | Phase | Purpose |
 |---|---|---|
 | `studyplan doctor` | 1 | Check prerequisites (Python, uv, optional LibreOffice) and the `my_study/` layout. |
+| `studyplan doctor --inbox [--json]` | 1 | Document check for `/setup`: per expected document present or missing, counts only, never file names. |
+| `studyplan guide [--lang] [--output]` | 1 | Print the student workflow (documents, commands, result) for copying. |
 | `studyplan profiles` | 1 | List available universities, programs, intake years and study modes from `profiles/`. |
 | `studyplan modules [--search <text>] [--category <id>]` | 1 | List or search the modules of the student's program (code, title, type, level, ECTS, mandatory). |
 | `studyplan init` | 1 | Create `my_study/profile.yaml`, `credits.yaml`, `plan.yaml`, `checklist.yaml` for the chosen program. Never overwrites existing files. |

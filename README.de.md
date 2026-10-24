@@ -61,7 +61,7 @@ Das enthaltene Profil deckt HSLU Technik & Architektur, Bachelor Digital Constru
    | `5` | Erstellt nach dem Setup sofort eine Excel-Arbeitsmappe. |
    | `Q` | Beendet das Menü. |
 
-5. Gib in Claude Code `/setup` ein und beantworte die Fragen.
+5. Gib in Claude Code `/setup` ein. Der Befehl beginnt mit einer Dokumentenprüfung und fragt dann alles ab, was er braucht.
 6. `start.bat` verwendet standardmässig Deutsch. Für eine dauerhafte Umstellung führe einmal `setx STUDYPLAN_LANG en` aus; neue Fenster übernehmen die Einstellung. Alternativ änderst du die Zeile `set "STUDYPLAN_LANG=de"` in `start.bat`. Nach `/setup` verwendet die CLI die im Studienprofil gespeicherte Sprache.
 
 ## Schritt 1: Dokumente sammeln
@@ -102,26 +102,23 @@ my_study/
 
 | Befehl | Funktion | Beispiel, das du eingeben kannst |
 |---|---|---|
-| `/setup` | Wählt Hochschule, Studiengang, Eintritt, Studienmodus und Sprache. | `/setup Ich habe 2025 mit Digital Construction begonnen und studiere Teilzeit.` |
-| `/credits` | Importiert die gespeicherte MyCampus-Seite lokal oder erfasst bestandene, nicht bestandene und anerkannte Leistungen. | `/credits Importiere meine gespeicherte MyCampus-Seite.` |
-| `/check` | Zeigt den aktuellen Stand oder eine Prognose mit Lücken. | `/check Zeige eine Prognose für meinen aktuellen Plan.` |
-| `/plan` | Erstellt und passt den Plan für die verbleibenden Semester an. | `/plan Erstelle meinen ersten Plan und zeige die Warnungen.` |
-| `/excel` | Schreibt die Excel-Arbeitsmappe. | `/excel Erstelle meine Arbeitsmappe auf Deutsch.` |
-| `/missing` | Listet noch benötigte Modulseiten. Verfügbar ab Phase 2. | `/missing Welche Modulbeschreibungen brauche ich noch?` |
-| `/import` | Erstellt nach Einwilligung prüfbare Importentwürfe. Verfügbar ab Phase 2. | `/import Verarbeite die Modulseiten, die ich freigegeben habe.` |
-| `/update` | Ruft Aktualisierungen zugelassener öffentlicher Quellen ab. Verfügbar ab Phase 3. | `/update Prüfe öffentliche Aktualisierungen meines Studiengangs.` |
+| `/setup` | Prüft deine Unterlagen und fragt dann nach Studiengang, Eintrittsjahr, Studienform und Startsemester. | `/setup` |
+| `/credits` | Importiert die gespeicherte MyCampus-Seite lokal oder erfasst bestandene, nicht bestandene und anerkannte Leistungen. | `/credits` |
+| `/check` | Zeigt den aktuellen Stand oder eine Prognose mit Lücken. | `/check` oder `/check Prognose` |
+| `/plan` | Erstellt und passt den Plan für die verbleibenden Semester an. | `/plan` |
+| `/excel` | Schreibt die Excel-Arbeitsmappe. | `/excel` |
+| `/missing` | Listet noch benötigte Modulseiten. Verfügbar ab Phase 2. | `/missing` |
+| `/import` | Erstellt nach Einwilligung prüfbare Importentwürfe. Verfügbar ab Phase 2. | `/import` |
+| `/update` | Ruft Aktualisierungen zugelassener öffentlicher Quellen ab. Verfügbar ab Phase 3. | `/update` |
 
 Empfohlene Reihenfolge: `/setup`, `/credits`, `/check`, `/plan`, `/check Prognose`, `/excel`. Ergänze `/missing` und `/import`, sobald Phase 2 verfügbar ist.
 
 ```text
-Du: /setup Ich habe 2025 begonnen, studiere Teilzeit und möchte Deutsch.
-Claude Code: Ich liste die verfügbaren Profile auf und erstelle dein lokales Studienprofil.
+Du: /setup
+Claude Code: Ich habe deine Inbox geprüft: 2 Dokumente gefunden, Studienreglement und Stundenplan fehlen. Welchen Studiengang studierst du?
 
-Du: /credits Importiere meine gespeicherte MyCampus-Seite.
-Claude Code: Ich zeige zuerst einen lokalen Testlauf und übernehme die Daten erst nach deiner Bestätigung.
-
-Du: /check Zeige eine Prognose.
-Claude Code: Ich führe das Regelwerk aus und erkläre die Lücken und vorläufigen Punkte.
+Du: /credits
+Claude Code: Hier ist der Testlauf deines MyCampus-Imports. Soll ich diese Leistungen übernehmen?
 ```
 
 Die Werte in diesem Beispiel sind erfunden.
@@ -206,6 +203,7 @@ tests/fixtures/real/       Private, ignorierte Maintainer-Fixtures
 |---|---|
 | `studyplan guide` | Gibt den Studienablauf aus und kann ihn in eine Datei schreiben. |
 | `studyplan doctor` | Prüft erforderliche lokale Ordner. |
+| `studyplan doctor --inbox` | Zeigt, welche erwarteten Unterlagen in der Inbox liegen, ohne Dateinamen. |
 | `studyplan profiles` | Listet verfügbare Hochschulen und Studiengänge. |
 | `studyplan modules` | Listet Module des gewählten Studiengangs. |
 | `studyplan init` | Erstellt ein Studienprofil und leere Zustandsdateien. |

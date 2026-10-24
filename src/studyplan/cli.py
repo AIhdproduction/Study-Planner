@@ -113,7 +113,10 @@ def _language(override: str | None = None) -> str:
         return override or LANGUAGE or "en"
     profile = _study() / "profile.yaml"
     if profile.exists():
-        return load_model(profile, StudentProfile).language
+        try:
+            return load_model(profile, StudentProfile).language
+        except Exception:
+            pass
     return os.environ.get("STUDYPLAN_LANG") or "en"
 
 
@@ -187,20 +190,129 @@ def guide(
         console.print(str(output))
 
 
+INBOX_SPEC: list[dict[str, Any]] = [
+    {
+        "id": "regulations",
+        "folder": "regulations",
+        "extensions": (".pdf",),
+        "importance": "optional",
+        "purpose_key": "inbox_regulations",
+    },
+    {
+        "id": "model_timetable",
+        "folder": "timetable",
+        "extensions": (".pdf", ".ics", ".csv", ".xlsx"),
+        "importance": "optional",
+        "purpose_key": "inbox_model_timetable",
+    },
+    {
+        "id": "mycampus_page",
+        "folder": "transcript",
+        "extensions": (".html", ".htm"),
+        "importance": "recommended",
+        "purpose_key": "inbox_mycampus_page",
+    },
+    {
+        "id": "transcript_pdf",
+        "folder": "transcript",
+        "extensions": (".pdf",),
+        "importance": "optional",
+        "purpose_key": "inbox_transcript_pdf",
+    },
+    {
+        "id": "recognition",
+        "folder": "recognition",
+        "extensions": (".pdf",),
+        "importance": "optional",
+        "purpose_key": "inbox_recognition",
+    },
+    {
+        "id": "module_descriptions",
+        "folder": "modules",
+        "extensions": (".pdf", ".html", ".htm"),
+        "importance": "optional",
+        "purpose_key": "inbox_module_descriptions",
+    },
+]
+
+
 @app.command()
 def doctor(
-    lang: str | None = typer.Option(None, "--lang", help="Output language: en or de."),
+    lang: Annotated[str | None, typer.Option("--lang", help="Output language: en or de.")] = None,
+    inbox: Annotated[bool, typer.Option("--inbox", help="Inspect document inbox folders.")] = False,
+    as_json: Annotated[bool, typer.Option("--json", help="Print machine-readable JSON.")] = False,
 ) -> None:
-    """Check the local folders required by Study Planner."""
+    """Check the local folders and inbox documents required by Study Planner."""
     required = {"profiles": _profiles().root, "my_study": _study()}
     missing = [name for name, path in required.items() if not path.exists()]
-    _out(
-        message(_language(lang), "environment_ready")
-        if not missing
-        else f"Missing folders: {', '.join(missing)}"
-    )
+    selected_lang = _language(lang)
+    if not inbox:
+        _out(
+            message(selected_lang, "environment_ready")
+            if not missing
+            else f"Missing folders: {', '.join(missing)}"
+        )
+        if missing:
+            raise typer.Exit(1)
+        return
+
     if missing:
+        _out(f"Missing folders: {', '.join(missing)}")
         raise typer.Exit(1)
+
+    inbox_dir = _study() / "inbox"
+    items: list[dict[str, Any]] = []
+    for spec in INBOX_SPEC:
+        folder_path = inbox_dir / spec["folder"]
+        count = 0
+        if folder_path.is_dir():
+            for entry in folder_path.iterdir():
+                if (
+                    entry.is_file()
+                    and not entry.name.startswith(".")
+                    and entry.suffix.lower() in spec["extensions"]
+                ):
+                    count += 1
+        items.append(
+            {
+                "id": spec["id"],
+                "folder": spec["folder"],
+                "status": "present" if count > 0 else "missing",
+                "count": count,
+                "importance": spec["importance"],
+                "purpose": message(selected_lang, spec["purpose_key"]),
+            }
+        )
+
+    missing_recommended = [
+        item["id"]
+        for item in items
+        if item["importance"] == "recommended" and item["status"] == "missing"
+    ]
+    profile_exists = (_study() / "profile.yaml").is_file()
+
+    if as_json:
+        _out(
+            {
+                "items": items,
+                "missing_recommended": missing_recommended,
+                "profile_exists": profile_exists,
+            },
+            as_json=True,
+        )
+        return
+
+    lines: list[str] = []
+    for item in items:
+        status_text = status_label(selected_lang, item["status"])
+        if item["count"] > 0:
+            lines.append(f"{item['purpose']}: {status_text} ({item['count']})")
+        else:
+            lines.append(f"{item['purpose']}: {status_text}")
+    if any(item["status"] == "missing" for item in items):
+        lines.append(message(selected_lang, "inbox_guide_hint"))
+
+    _out("\n".join(lines))
 
 
 @app.command()

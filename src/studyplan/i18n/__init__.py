@@ -53,6 +53,15 @@ MESSAGES: dict[str, dict[str, str]] = {
         "not_fulfilled": "not fulfilled",
         "manual": "manual",
         "confirmed": "confirmed",
+        "present": "present",
+        "missing": "missing",
+        "inbox_regulations": "Study regulation and curriculum",
+        "inbox_model_timetable": "Model timetable",
+        "inbox_mycampus_page": 'MyCampus "Meine Anmeldungen"',
+        "inbox_transcript_pdf": "Official transcript of records",
+        "inbox_recognition": "Recognition decisions",
+        "inbox_module_descriptions": "Module descriptions",
+        "inbox_guide_hint": "See `studyplan guide` for how to save it.",
         "disclaimer": (
             "Not legally binding. The official study regulations and the program management decide."
         ),
@@ -79,13 +88,14 @@ MESSAGES: dict[str, dict[str, str]] = {
             "module)\n"
             "Never enter passwords into Claude Code; nothing in my_study is uploaded.\n\n"
             "2. Commands to type in Claude Code:\n"
-            "/setup Digital Construction Architecture, start 2025, part time, HS25\n"
-            "/credits import my MyCampus page\n"
-            "/credits add my recognition decision\n"
-            "/check forecast\n"
-            "/plan\n"
-            "/excel\n"
-            "/missing (available from phase 2)\n\n"
+            "/setup — checks your documents, then asks step by step for university, program, "
+            "intake year, study mode and start semester\n"
+            "/credits — imports your MyCampus page and records recognized credits\n"
+            '/check — shows what is still missing; "/check forecast" includes planned '
+            "modules\n"
+            "/plan — builds and adjusts your semester plan\n"
+            "/excel — creates your Excel workbook\n"
+            "/missing — available from phase 2\n\n"
             "3. Where the result is:\n"
             "my_study\\output\\study_plan_<date>.xlsx with the sheets Overview, Study Plan, "
             "Semester Overview.\n\n"
@@ -145,6 +155,15 @@ MESSAGES: dict[str, dict[str, str]] = {
         "not_fulfilled": "nicht erfüllt",
         "manual": "manuell",
         "confirmed": "bestätigt",
+        "present": "vorhanden",
+        "missing": "fehlt",
+        "inbox_regulations": "Studienreglement und Curriculum",
+        "inbox_model_timetable": "Modellstundenplan",
+        "inbox_mycampus_page": 'MyCampus "Meine Anmeldungen"',
+        "inbox_transcript_pdf": "Offizieller Notenausweis",
+        "inbox_recognition": "Anerkennungsentscheide",
+        "inbox_module_descriptions": "Modulbeschreibungen",
+        "inbox_guide_hint": "Anleitung: `studyplan guide`",
         "disclaimer": (
             "Nicht rechtsverbindlich. Es gelten das offizielle Studienreglement und die "
             "Entscheide der Studiengangleitung."
@@ -172,13 +191,14 @@ MESSAGES: dict[str, dict[str, str]] = {
             "Bachelorarbeitsmodul)\n"
             "Niemals Passwörter in Claude Code eingeben; nichts in my_study wird hochgeladen.\n\n"
             "2. Befehle für Claude Code:\n"
-            "/setup Digital Construction Architecture, Start 2025, Teilzeit, HS25\n"
-            "/credits Importiere meine MyCampus-Seite\n"
-            "/credits Erfasse meine Modulerlassung\n"
-            "/check Prognose\n"
-            "/plan Erstelle meinen Studienplan\n"
-            "/excel Erstelle meine Excel-Liste\n"
-            "/missing (verfügbar ab Phase 2)\n\n"
+            "/setup — prüft deine Unterlagen und fragt dann Schritt für Schritt nach "
+            "Hochschule, Studiengang, Eintrittsjahr, Studienform und Startsemester\n"
+            "/credits — importiert deine MyCampus-Seite und erfasst Anerkennungen\n"
+            '/check — zeigt, was noch fehlt; "/check Prognose" schliesst geplante '
+            "Module ein\n"
+            "/plan — erstellt und passt deinen Semesterplan an\n"
+            "/excel — erstellt deine Excel-Arbeitsmappe\n"
+            "/missing — verfügbar ab Phase 2\n\n"
             "3. Wo das Ergebnis liegt:\n"
             "my_study\\output\\study_plan_<date>.xlsx mit den Tabellenblättern Übersicht, "
             "Studienplan, Semesterübersicht.\n\n"

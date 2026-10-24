@@ -61,7 +61,7 @@ The included profile covers HSLU Technik & Architektur, Bachelor Digital Constru
    | `5` | Create an Excel workbook now, after setup. |
    | `Q` | Quit the menu. |
 
-5. In Claude Code, type `/setup` and answer its questions.
+5. In Claude Code, type `/setup`. It starts with a document check and then asks everything it needs.
 6. `start.bat` uses German by default. To switch permanently, run `setx STUDYPLAN_LANG en` once; new windows use the setting. Alternatively, change the line `set "STUDYPLAN_LANG=de"` in `start.bat`. After `/setup`, the CLI uses the language stored in the study profile.
 
 ## Step 1: collect your documents
@@ -102,26 +102,23 @@ my_study/
 
 | Command | What it does | Example you can type |
 |---|---|---|
-| `/setup` | Selects the university, program, intake, study mode, and language. | `/setup I started Digital Construction in 2025 and study part time.` |
-| `/credits` | Imports your saved MyCampus page locally or records passed, failed, and recognized credits. | `/credits Import my saved MyCampus page.` |
-| `/check` | Shows the current result or a forecast with gaps. | `/check Show a forecast for my current plan.` |
-| `/plan` | Generates and adjusts the remaining-semester plan. | `/plan Generate my first plan and show the warnings.` |
-| `/excel` | Writes the Excel workbook. | `/excel Create my workbook in German.` |
-| `/missing` | Lists module pages still needed. Available in phase 2. | `/missing Which module descriptions do I still need?` |
-| `/import` | Creates reviewable import drafts after consent. Available in phase 2. | `/import Process the module pages I approved.` |
-| `/update` | Fetches approved public-source updates. Available in phase 3. | `/update Check for public program updates.` |
+| `/setup` | Checks your documents, then asks for program, intake year, study mode and start semester. | `/setup` |
+| `/credits` | Imports your saved MyCampus page locally or records passed, failed, and recognized credits. | `/credits` |
+| `/check` | Shows the current result or a forecast with gaps. | `/check` or `/check forecast` |
+| `/plan` | Generates and adjusts the remaining-semester plan. | `/plan` |
+| `/excel` | Writes the Excel workbook. | `/excel` |
+| `/missing` | Lists module pages still needed. Available in phase 2. | `/missing` |
+| `/import` | Creates reviewable import drafts after consent. Available in phase 2. | `/import` |
+| `/update` | Fetches approved public-source updates. Available in phase 3. | `/update` |
 
 Recommended order: `/setup`, `/credits`, `/check`, `/plan`, `/check forecast`, `/excel`. Add `/missing` and `/import` when phase 2 is available.
 
 ```text
-You: /setup I started in 2025, study part time, and prefer English.
-Claude Code: I will list the available profiles and create your local study profile.
+You: /setup
+Claude Code: I checked your inbox: 2 documents found, study regulation and timetable are missing. Which program do you study?
 
-You: /credits Import my saved MyCampus page.
-Claude Code: I will first show a local dry run, then apply it only after you confirm.
-
-You: /check Show a forecast.
-Claude Code: I will run the rule engine and explain its gaps and provisional items.
+You: /credits
+Claude Code: Here is the dry run of your MyCampus import. Do you want to apply these credits?
 ```
 
 The values in this example are invented.
@@ -206,6 +203,7 @@ tests/fixtures/real/       Private, ignored maintainer fixtures
 |---|---|
 | `studyplan guide` | Print the student workflow and optionally write it to a file. |
 | `studyplan doctor` | Check required local folders. |
+| `studyplan doctor --inbox` | Shows which expected documents are in the inbox, without file names. |
 | `studyplan profiles` | List available universities and programs. |
 | `studyplan modules` | List modules in the selected program. |
 | `studyplan init` | Create a study profile and empty state files. |
